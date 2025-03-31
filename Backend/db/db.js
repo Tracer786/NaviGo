@@ -6,5 +6,8 @@ function connectToDb() {
         useUnifiedTopology: true
     }, () => {
         console.log('Connected to MongoDB');
-    });
+    }).catch(err=> console.log(err));
 }
+
+
+module.exports = connectToDb;
