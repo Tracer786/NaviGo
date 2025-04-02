@@ -10,7 +10,7 @@ module.exports.registerUser = async (req, res, next) => {
     }
     console.log(req.body);
     //else -> if everything is input correct
-    const { firstname, lastname, email, password } = req.body;
+    const { fullname, email, password } = req.body;
 
     //and we don't store the password directly in DB
     //will hash the password before storing it
@@ -18,8 +18,8 @@ module.exports.registerUser = async (req, res, next) => {
 
     //register user
     const user = await userService.createUser({
-        firstname,
-        lastname,
+        firstname: fullname.firstname,
+        lastname: fullname.lastname,
         email,
         passowrd: hashedPassword
     });
