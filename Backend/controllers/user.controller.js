@@ -15,9 +15,18 @@ module.exports.registerUser = async (req, res, next) => {
     //will hash the password before storing it
     const hashedPassword = await userModel.hashPassword(password);
 
-
     //register user
-    
+    const user = await userService.createUser({
+        firstname,
+        lastname,
+        email,
+        passowrd: hashedPassword
+    });
+
+    const token = user.generateToken();
+
+    res.status(201).json({ token, user });
+
 }
 
 //created a user model and acquired it in user.controller
