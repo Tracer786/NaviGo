@@ -21,10 +21,10 @@ module.exports.registerUser = async (req, res, next) => {
         firstname: fullname.firstname,
         lastname: fullname.lastname,
         email,
-        passowrd: hashedPassword
+        password: hashedPassword
     });
 
-    const token = user.generateToken();
+    const token = user.generateAuthToken();
 
     res.status(201).json({ token, user });
 
