@@ -108,3 +108,87 @@ curl -X POST http://localhost:3000/users/register \
 - Ensure your environment variables (e.g., `DB_CONNECT`, `JWT_SECRET`) are set correctly in your `.env` file.
 - This endpoint is an integral part of the backend application built with `Express` and `Mongoose`.
 
+
+# /users/login Endpoint 
+
+This document describes the `/users/login` endpoint which is used for user authentication.
+
+## Endpoint Overview
+- **Method**: `POST`
+- **URL**: `/users/login`
+
+## Request Data
+- Expects a JSON object with the following structure:
+  - **email**: string (valid email, required, min 5 characters)
+  - **password**: string (min 6 characters, required)
+
+**Example Request JSON:**
+```
+{
+  "email": "john.doe@example.com",
+  "password": "secret123"
+}
+```
+
+## Field Details
+- **email**: 
+  - Required.
+  - Must be a valid email address.
+- **password**: 
+  - Required.
+  - Must be at least 6 characters long.
+
+## Validation
+- Data is validated using `express-validator` to ensure:
+  - The email is in a valid format.
+  - The password meets the minimum length requirement.
+- **On validation failure:**
+  - Returns a **400 Bad Request** status with error details.
+
+## Response
+
+### Success (User Authenticated)
+- **Status Code**: `200 OK`
+- **Response Body:**
+```
+{
+  "token": "JWT token string",
+  "user": {
+    "_id": "user id",
+    "fullname": {
+      "firstname": "user first name",
+      "lastname": "user last name"
+    },
+    "email": "user email"
+  }
+}
+```
+
+### Error (Invalid Credentials)
+- **Status Code**: `401 Unauthorized`
+- **Response Body:**
+```
+{
+  "message": "Invalid email or password"
+}
+```
+
+### Validation Error
+- **Status Code**: `400 Bad Request`
+- **Response Body:**
+```
+{
+  "errors": [
+    {
+      "msg": "Validation error message",
+      "param": "fieldName",
+      "location": "body"
+    }
+  ]
+}
+```
+
+## Additional Information
+- The user's password is compared after being hashed.
+- A JWT token is generated upon successful login for future authenticated requests.
+- Handle error responses appropriately on the client side.
