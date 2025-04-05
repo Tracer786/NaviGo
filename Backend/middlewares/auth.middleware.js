@@ -14,11 +14,10 @@ moudule.exports.authUser = async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET); //verify token using secret key
         const user = await userModel.findById(decoded.id); //find user by id in token
-        //if is added by me -> EXTRA
-        if (!user) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
+        
         req.user = user; //set user in request object
         return next(); //call next middleware
+    } catch (error) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 }
