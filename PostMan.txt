@@ -1,14 +1,25 @@
-1. User Registration
+1. User Registration (POST)
 
-POST request: http://localhost:4000/users/register
-Raw body: 
-{
+curl --location 'http://localhost:4000/users/register' \
+--header 'Content-Type: application/json' \
+--data-raw '{
     "fullname": {
-        "firstname" : "test_firstname",
-        "lastname" : "test_lastname"
+        "firstname" : "NaviGo",
+        "lastname" : "App"
     },
-    "email" : "test_email@test.com",
-    "password" : "test_password"
-}
+    "email" : "navigo@gmail.com",
+    "password" : "NaviGo"
+}'
+
+2. User Login (POST)
+
+curl --location 'http://localhost:4000/users/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email" : "navigo@gmail.com",
+    "password" : "NaviGo"
+}'
+
+3. 
 
 
