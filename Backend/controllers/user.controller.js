@@ -31,3 +31,34 @@ module.exports.registerUser = async (req, res, next) => {
 }
 
 //created a user model and acquired it in user.controller
+
+module.exports.loginUser = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    const { email, password } = req.body;  //get email and password from request body
+    //find user by email
+    // const user = await userService.findUserByEmail(email);
+    const user = await userModel.findOne({ email }).select('+password'); //select password field as well
+
+    //if user not found
+    if (!user) {
+        // return res.status(404).json({ message: 'User not found' });
+        return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    //compare password
+    // const isMatch = await userModel.comparePassword(password, user.password);
+    const isMatch = await user.comparePassword(password); //compare password with hashed password
+
+    //if password doesn't match
+    if (!isMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+    }
+
+    //generate token
+    const token = user.generateAuthToken();
+
+    res.status(200).json({ token, user });
+}
