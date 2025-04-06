@@ -1,3 +1,6 @@
+generate docs for /users/profile  and /users/logout . I want information like description, req method and URL, request data(text and json), field details, data validation, request response(text and json), validation errors. give with an  example
+
+
 1. User Registration (POST)
 
 curl --location 'http://localhost:4000/users/register' \
