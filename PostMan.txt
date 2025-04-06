@@ -20,6 +20,9 @@ curl --location 'http://localhost:4000/users/login' \
     "password" : "NaviGo"
 }'
 
-3. 
+3. User Profile (GET)
+
+curl --location 'http://localhost:4000/users/profile' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2YxNjExNGI5NjRjYTI3MWEwN2Q4MTgiLCJpYXQiOjE3NDM4NzIzNDZ9.qW00zdMIBA2adH62jbiGCYfbvSifAPo3Ncf0bt5jxEM'
 
 
