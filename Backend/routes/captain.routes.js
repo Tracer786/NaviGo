@@ -1,3 +1,4 @@
+const captainController = require('../controllers/captain.controller');
 const express = require('express');
 const router = express.Router();
 const { body } = require("express-validator")
@@ -11,7 +12,7 @@ router.post('/register', [
     body('vehicle.capacity').isNumeric().withMessage('Capacity must be a number'),
     body('vehicle.vehicleType').isIn(['car', 'motorcycle', 'auto']).withMessage('Invalid vehicle type')
 ],
-    userController.registerUser
+    userController.registerCaptain
 )
 
 
