@@ -3,7 +3,6 @@ const captainService = require('../services/captain.service');
 const { validationResult } = require('express-validator');
 
 module.exports.registerCaptain = async (req, res) => {
-    try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -23,7 +22,4 @@ module.exports.registerCaptain = async (req, res) => {
         //generate token for captain
         const token = captain.generateAuthToken();
         res.status(201).json(token,captain);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
 }
