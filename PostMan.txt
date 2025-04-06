@@ -31,3 +31,7 @@ curl --location 'http://localhost:4000/users/profile' \
 curl --location 'http://localhost:4000/users/profile' \
 --header 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2YyMzRkYTg2ZmE1NWVlNDQ5YjM4ZGQiLCJpYXQiOjE3NDM5MjcwODB9.80QmleK7tMWyiib0-j3minRVn1CAxIuf3P9sbwMy518'
 
+
+5. User Logout (GET)
+
+curl --location 'http://localhost:4000/users/logout'   Run and try to again to run the profile. It won't fetch data.

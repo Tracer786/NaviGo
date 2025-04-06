@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 //create middleware
 module.exports.authUser = async (req, res, next) => {
     
-    const token = req.cookies.token || req.headers.authorization.split(' ')[1]; //get token from cookies or headers
+    const token = req.cookies.token || req.headers.authorization?.split(' ')[1]; //get token from cookies or headers
     //if token is not present in cookies or headers
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized' });
