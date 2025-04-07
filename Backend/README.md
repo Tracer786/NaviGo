@@ -336,3 +336,165 @@ curl -X GET http://localhost:3000/users/logout \
 - The endpoint clears the JWT token from cookies and adds it to a blacklist.
 - Blacklisted tokens are stored in the database with a TTL of 24 hours.
 - If the token is invalid, expired, or already blacklisted, the request will fail with a `401 Unauthorized` status.
+
+# Captain Routes Documentation
+
+## /captain/register Endpoint
+
+### Description
+
+The `/captain/register` endpoint allows captains to register in the system. It validates the provided data, hashes the password, stores the captain in the database, and returns a JWT token for authentication along with the created captain details.
+
+---
+
+### Request Method & URL
+
+- **Method:** POST
+- **URL:** `/captain/register`
+
+---
+
+### Request Data
+
+The endpoint accepts a JSON object with the following structure:
+
+```json
+{
+  "fullname": {
+    "firstname": "string (min 3 characters, required)",
+    "lastname": "string (optional)"
+  },
+  "email": "string (valid email, required)",
+  "password": "string (min 6 characters, required)",
+  "vehicle": {
+    "color": "string (min 3 characters, required)",
+    "plate": "string (min 3 characters, required, unique)",
+    "capacity": "number (required, min 1)",
+    "vehicleType": "string (required, one of 'car', 'motorcycle', 'auto')"
+  }
+}
+```
+
+#### Field Details
+
+- **fullname.firstname:** Required. Must be at least 3 characters long.
+- **fullname.lastname:** Optional.
+- **email:** Required. Must be a valid email address.
+- **password:** Required. Must be at least 6 characters long.
+- **vehicle.color:** Required. Must be at least 3 characters long.
+- **vehicle.plate:** Required. Must be at least 3 characters long and unique.
+- **vehicle.capacity:** Required. Must be a number and at least 1.
+- **vehicle.vehicleType:** Required. Must be one of `car`, `motorcycle`, or `auto`.
+
+---
+
+### Validation
+
+The request is validated using `express-validator`. Common validations include:
+
+- Valid email format.
+- Minimum length for `fullname.firstname`, `password`, `vehicle.color`, and `vehicle.plate`.
+- `vehicle.capacity` must be a number and at least 1.
+- `vehicle.vehicleType` must be one of the allowed values.
+
+If validation fails, the endpoint returns a **400 Bad Request** status with details about the errors.
+
+---
+
+### Response
+
+#### Success (Captain Created)
+
+- **Status Code:** `201 Created`
+- **Response Body:**
+
+```json
+{
+  "token": "JWT token string",
+  "captain": {
+    "_id": "captain id",
+    "fullname": {
+      "firstname": "captain first name",
+      "lastname": "captain last name"
+    },
+    "email": "captain email",
+    "vehicle": {
+      "color": "vehicle color",
+      "plate": "vehicle plate",
+      "capacity": "vehicle capacity",
+      "vehicleType": "vehicle type"
+    }
+  }
+}
+```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Response Body:**
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Validation error message",
+      "param": "fieldName",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Other Errors
+
+- **Status Code:** `400 Bad Request`  
+  **Response Body:**
+
+```json
+{
+  "message": "Captain already exists"
+}
+```
+
+- **Status Code:** `500 Internal Server Error`  
+  **Response Body:**
+
+```json
+{
+  "message": "Internal server error"
+}
+```
+
+---
+
+### Example Request
+
+You can test the registration endpoint using `cURL`:
+
+```sh
+curl -X POST http://localhost:3000/captain/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "securePassword123",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }'
+```
+
+---
+
+### Additional Information
+
+- The password is hashed using `bcrypt` before being stored.
+- A JWT token is generated using `jsonwebtoken` upon successful registration.
+- Ensure your environment variables (e.g., `DB_CONNECT`, `JWT_SECRET`) are set correctly in your `.env` file.
+- This endpoint is an integral part of the backend application built with `Express` and `Mongoose`.
