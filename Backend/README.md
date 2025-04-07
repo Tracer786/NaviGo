@@ -339,7 +339,7 @@ curl -X GET http://localhost:3000/users/logout \
 
 # Captain Routes Documentation
 
-## /captain/register Endpoint
+## /captains/register Endpoint
 
 ### Description
 
@@ -498,3 +498,242 @@ curl -X POST http://localhost:3000/captain/register \
 - A JWT token is generated using `jsonwebtoken` upon successful registration.
 - Ensure your environment variables (e.g., `DB_CONNECT`, `JWT_SECRET`) are set correctly in your `.env` file.
 - This endpoint is an integral part of the backend application built with `Express` and `Mongoose`.
+
+# /captains/login Endpoint
+
+## Description
+
+The `/captains/login` endpoint allows captains to log in to the system by providing their email and password. Upon successful authentication, a JWT token is returned for subsequent requests.
+
+---
+
+## Request Method & URL
+
+- **Method:** POST
+- **URL:** `/captains/login`
+
+---
+
+## Request Data
+
+The endpoint accepts a JSON object with the following structure:
+
+```json
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 characters, required)"
+}
+```
+
+### Field Details
+
+- **email:** Required. Must be a valid email address.
+- **password:** Required. Must be at least 6 characters long.
+
+---
+
+## Validation
+
+The request is validated using `express-validator`. Common validations include:
+
+- Valid email format.
+- Minimum length for `password`.
+
+If validation fails, the endpoint returns a **400 Bad Request** status with details about the errors.
+
+---
+
+## Response
+
+### Success (Captain Authenticated)
+
+- **Status Code:** `200 OK`
+- **Response Body:**
+
+```json
+{
+  "token": "JWT token string",
+  "captain": {
+    "_id": "captain id",
+    "fullname": {
+      "firstname": "captain first name",
+      "lastname": "captain last name"
+    },
+    "email": "captain email",
+    "vehicle": {
+      "color": "vehicle color",
+      "plate": "vehicle plate",
+      "capacity": "vehicle capacity",
+      "vehicleType": "vehicle type"
+    }
+  }
+}
+```
+
+### Error (Invalid Credentials)
+
+- **Status Code:** `401 Unauthorized`
+- **Response Body:**
+
+```json
+{
+  "message": "Invalid email or password"
+}
+```
+
+### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Response Body:**
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Validation error message",
+      "param": "fieldName",
+      "location": "body"
+    }
+  ]
+}
+```
+
+---
+
+## Example Request
+
+```sh
+curl -X POST http://localhost:3000/captains/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "password": "securePassword123"
+  }'
+```
+
+---
+
+# /captains/profile Endpoint
+
+## Description
+
+The `/captains/profile` endpoint retrieves the authenticated captain's profile details. The request must include a valid JWT token for authentication.
+
+---
+
+## Request Method & URL
+
+- **Method:** GET
+- **URL:** `/captains/profile`
+
+---
+
+## Request Data
+
+No request body is required. The endpoint expects the JWT token to be provided in the `Authorization` header or as a cookie.
+
+---
+
+## Response
+
+### Success (Profile Retrieved)
+
+- **Status Code:** `200 OK`
+- **Response Body:**
+
+```json
+{
+  "captain": {
+    "_id": "captain id",
+    "fullname": {
+      "firstname": "captain first name",
+      "lastname": "captain last name"
+    },
+    "email": "captain email",
+    "vehicle": {
+      "color": "vehicle color",
+      "plate": "vehicle plate",
+      "capacity": "vehicle capacity",
+      "vehicleType": "vehicle type"
+    }
+  }
+}
+```
+
+### Error (Unauthorized)
+
+- **Status Code:** `401 Unauthorized`
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## Example Request
+
+```sh
+curl -X GET http://localhost:3000/captains/profile \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+---
+
+# /captains/logout Endpoint
+
+## Description
+
+The `/captains/logout` endpoint logs out the authenticated captain by invalidating their JWT token. The token is added to a blacklist to prevent further use.
+
+---
+
+## Request Method & URL
+
+- **Method:** GET
+- **URL:** `/captains/logout`
+
+---
+
+## Request Data
+
+No request body is required. The endpoint expects the JWT token to be provided in the `Authorization` header or as a cookie.
+
+---
+
+## Response
+
+### Success (Logged Out)
+
+- **Status Code:** `200 OK`
+- **Response Body:**
+
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+### Error (Unauthorized)
+
+- **Status Code:** `401 Unauthorized`
+- **Response Body:**
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+---
+
+## Example Request
+
+```sh
+curl -X GET http://localhost:3000/captains/logout \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+---
