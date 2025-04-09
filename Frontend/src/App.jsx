@@ -1,8 +1,14 @@
 import React from "react";
+import { Routes } from "react-router-dom";
 
 const App = () => {
     return (
-        <h1 className="bg-red-700">React App</h1>
+        <div>
+            {/* creating routes */}
+            <Routes>
+                
+            </Routes>
+        </div>
     );
 }
     
