@@ -3,10 +3,11 @@ import React from "react";
 const Home = () => {
     return (
         <div>
-            <div className="h-screen flex justify-between flex-col w-full bg-red-400">
-                <div className="bg-white">
-                    <h2>Get Started with NaviGo</h2>
-                    <button>Continue</button>
+            <div className="bg-cover bg-bottom bg-[url(/images/Home_Image.jpg)] h-screen pt-8 flex justify-between flex-col w-full bg-red-400">
+                <img className="w-16 ml-8" src="/images/NaviGo_Logo.png" alt="" />
+                <div className="bg-white pb-7 py-4 px-4">
+                    <h2 className="text-2xl font-bold">Get Started with NaviGo</h2>
+                    <button className="w-full bg-black text-white py-3 rounded mt-5">Continue</button>
                 </div>
             </div>
         </div>
