@@ -3,8 +3,12 @@ import React from "react";
 const Home = () => {
     return (
         <div>
-            <h1>Home Page</h1>
-            <p>Welcome to the Home Page!</p>
+            <div className="h-screen flex justify-between flex-col w-full bg-red-400">
+                <div className="bg-white">
+                    <h2>Get Started with NaviGo</h2>
+                    <button>Continue</button>
+                </div>
+            </div>
         </div>
     );
 }
