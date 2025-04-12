@@ -5,9 +5,16 @@ const UserLogin = () => {
     // perform 2 way binding
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [userData, setUserData] = useState({});
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log("Hello!");
+        setUserData({
+            email: email,
+            password: password,
+        })
+        console.log(userData);
+        setEmail("");
+        setPassword("");
     }
     return (
         <div className="p-7 h-screen flex flex-col justify-between">
@@ -33,7 +40,7 @@ const UserLogin = () => {
                 </p>
             </div>
             <div>
-                <button className="bg-[green] text-white font-semibold mb-7 rounded px-4 py-2  w-full text-lg placeholder:text-base">Sign In as Captain</button>
+                <Link to='/CaptainLogin' className="bg-[green] text-white flex items-center justify-center font-semibold mb-5 rounded px-4 py-2  w-full text-lg placeholder:text-base">Sign In as Captain</Link>
             </div>
         </div>
     );
