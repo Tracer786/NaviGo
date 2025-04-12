@@ -95,7 +95,7 @@ const UserSignup = () => {
             </div>
             <div>
                 <p className='text-xs leading-tight'>
-                    Consent.
+                    This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy Policy</span> and <span className='underline'>Terms of Service apply.</span>
                 </p>
             </div>
         </div>
