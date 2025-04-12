@@ -1,6 +1,5 @@
 import React, { use, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link , useNavigate} from 'react-router-dom';
 const UserSignup = () => {
     // perform 2 way binding
     const [email, setEmail] = useState("");
@@ -9,16 +8,18 @@ const UserSignup = () => {
     const [lastName, setLastName] = useState("");
     const [userData, setUserData] = useState({});
 
+    const navigate = useNavigate();
+
     const submitHandler = (e) => {
         e.preventDefault();
-        setUserData({
-            fullName: {
-                firstName: firstName,
-                lastName: lastName,
-            },
-            email: email,
-            password: password
-        })
+        const newUser = {
+                fullName: {
+                    firstName: firstName,
+                    lastName: lastName,
+                },
+                email: email,
+                password: password
+        }
         console.log(userData);
         setEmail("");
         setPassword("");
@@ -83,7 +84,7 @@ const UserSignup = () => {
                         }
                     />
                     <button className="bg-[#111] text-white font-semibold mb-3 rounded px-4 py-2  w-full text-lg placeholder:text-base">
-                        Login
+                        Create Account
                     </button>
                 </form>
                 <p className="text-center">

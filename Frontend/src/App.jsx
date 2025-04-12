@@ -5,6 +5,7 @@ import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
 import CaptainSignup from "./pages/CaptainSignup";
 import CaptainLogin from "./pages/CaptainLogin";
+import Start from "./pages/Start";
 import {UserDataContext}  from "./context/UserContext";
 
 const App = () => {
@@ -14,11 +15,12 @@ const App = () => {
         <div>
             {/* creating routes */}
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Start />} />
                 <Route path="/userlogin" element={<UserLogin />} />
                 <Route path="/usersignup" element={<UserSignup />} />
                 <Route path="/captainlogin" element={<CaptainLogin />} />
                 <Route path="/captainsignup" element={<CaptainSignup />} />
+                <Route path="/home" element={<Home />} />
                 {/* Add more routes as needed */}
             </Routes>
         </div>
