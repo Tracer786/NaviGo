@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router-dom";
 
 const UserLogin = () => {
@@ -19,7 +19,7 @@ const UserLogin = () => {
     return (
         <div className="p-7 h-screen flex flex-col justify-between">
             <div>
-                <img className="w-16 mb-10" src="/images/NaviGo_Logo.png" alt="NaviGo_Logo.png" />
+                <img className="w-16 mb-13" src="/images/NaviGo_Logo.png" alt="NaviGo_Logo.png" />
                 <form onSubmit={(e)=>{
                     submitHandler(e);
                 }}>
