@@ -1,19 +1,17 @@
-import React, { use, useState } from 'react';
+import React, {useState, useContext } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useContext } from 'react';
 import { UserDataContext } from '../context/UserContext';
-import UserContext from '../context/UserContext';
 const UserSignup = () => {
     // perform 2 way binding
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState('');
 
     const navigate = useNavigate();
-    const{user,setUser} = React.useContext(UserContext)
+    const{user,setUser} = useContext(UserDataContext)
 
     const submitHandler = async (e) => {
         e.preventDefault();
