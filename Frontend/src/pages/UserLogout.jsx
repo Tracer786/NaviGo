@@ -8,6 +8,10 @@ const UserLogout = () => {
 
     useEffect(() => {
         const logout = async () => {
+            if (!token) {
+                navigate("/userlogin");
+                return;
+            }
             try {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/users/logout`, {
                     headers: {
