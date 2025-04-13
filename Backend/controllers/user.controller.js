@@ -77,10 +77,23 @@ module.exports.getUserProfile = async (req, res, next) => {
     res.status(200).json(req.user); //send user object as response
 }
 
+// module.exports.logoutUser = async (req, res, next) => {
+//     res.clearCookie('token'); //clear token from cookies
+//     const token = req.cookies.token || req.headers.authorization.split(' ')[1]; //get token from cookies or headers
+//     await blackListTokenModel.create({ token }); //add token to blacklist
+//     //token is added to blacklist so that it can't be used again
+//     res.status(200).json({ message: 'Logged out successfully' });
+// }
+
 module.exports.logoutUser = async (req, res, next) => {
-    res.clearCookie('token'); //clear token from cookies
-    const token = req.cookies.token || req.headers.authorization.split(' ')[1]; //get token from cookies or headers
-    await blackListTokenModel.create({ token }); //add token to blacklist
-    //token is added to blacklist so that it can't be used again
+    res.clearCookie('token'); // Clear token from cookies
+    const token = req.cookies.token || req.headers.authorization.split(' ')[1]; // Get token from cookies or headers
+
+    // Check if the token already exists in the blacklist
+    const isTokenBlacklisted = await blackListTokenModel.findOne({ token });
+    if (!isTokenBlacklisted) {
+        await blackListTokenModel.create({ token }); // Add token to blacklist
+    }
+
     res.status(200).json({ message: 'Logged out successfully' });
-}
+};
