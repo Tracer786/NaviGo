@@ -11,19 +11,19 @@ const UserSignup = () => {
     const [userData, setUserData] = useState('');
 
     const navigate = useNavigate();
-    const{user,setUser} = useContext(UserDataContext)
+    const[user,setUser] = useContext(UserDataContext)
 
     const submitHandler = async (e) => {
         e.preventDefault();
         const newUser = {
-                fullName: {
-                    firstName: firstName,
-                    lastName: lastName,
+                fullname: {
+                    firstname: firstName,
+                    lastname: lastName,
                 },
                 email: email,
                 password: password
         }
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`,newUser)
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser)
 
         if(response.status === 201){
             const data = response.data;
