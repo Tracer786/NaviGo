@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CaptainDataContext } from '../context/CaptainContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { locals } from '../../../Backend/app';
+
 
 const CaptainSignup = () => {
 
@@ -23,9 +23,9 @@ const CaptainSignup = () => {
         const submitHandler = async (e) => {
             e.preventDefault();
             const captainData = {
-                fullName: {
-                    firstName: firstName,
-                    lastName: lastName,
+                fullname: {
+                    firstname: firstName,
+                    lastname: lastName,
                 },
                 email: email,
                 password: password,
@@ -33,7 +33,7 @@ const CaptainSignup = () => {
                     color: vehicleColor,
                     plate: vehiclePlate,
                     capacity: vehicleCapacity,
-                    type: vehicleType,
+                    vehicleType: vehicleType,
                 },
             }
             // console.log(userData);
