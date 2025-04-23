@@ -45,7 +45,7 @@ const Home = () => {
     }, [panelOpen]);
 
     return (
-        <div className="h-screen relative">
+        <div className="h-screen relative overflow-hidden">
             <img className="w-16 absolute left-5 top-5" src="/images/NaviGo_Logo.png" alt="NaviGo Logo" />
             <div className="h-screen w-screen">
                 <img className="h-full w-full object-cover" src="/images/Home_Map_Gif_Image.gif" alt="Home Page" />
@@ -86,6 +86,17 @@ const Home = () => {
                 </div>
                 <div ref={panelRef} className="bg-white h-0">
                         <LocationSearchPanel/>
+                </div>
+            </div>
+            <div className="fixed z-10 bottom-0 p-5 bg-white">
+                <div className="flex bg-red-600 items-center justify-center">
+                    <img className="h-10" src="/images/NaviGo_Car.webp" alt="NaviGo_Car" />
+                    <div className="bg-green-500 w-1/2">
+                        <h4>Car <span><i className="ri-user-3-fill"></i>4</span></h4>
+                        <h5>2 mins away</h5>
+                        <p>Affordable, compact rides</p>
+                    </div>
+                    <h2>₹193.95</h2>
                 </div>
             </div>
         </div>
