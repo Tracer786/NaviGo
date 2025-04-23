@@ -3,6 +3,10 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import 'remixicon/fonts/remixicon.css';
 import LocationSearchPanel from "../components/LocationSearchPanel";
+import VehiclePanel from "../components/VehiclePanel";
+import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 // gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -13,7 +17,11 @@ const Home = () => {
     const panelRef = useRef(null);
     const vehiclePanelOpenRef = useRef(null);
     const panelCloseRef = useRef(null);
+    const confirmRidePanelRef = useRef(null);
+    const vehicleFoundRef = useRef(null);
     const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
+    const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+    const [vehicleFound, setVehicleFound] = useState(false);
     // vehicle panel open
 
     const submitHandler = (e) => {
@@ -58,6 +66,30 @@ const Home = () => {
             })
         }
     }, [vehiclePanelOpen]);
+
+    useGSAP(function () {
+        if (confirmRidePanel) {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(0)',
+            })
+        } else {
+            gsap.to(confirmRidePanelRef.current, {
+                transform: 'translateY(100%)',
+            })
+        }
+    }, [confirmRidePanel]);
+
+    useGSAP(function () {
+        if (vehicleFound) {
+            gsap.to(vehicleFoundRef.current, {
+                transform: 'translateY(0)',
+            })
+        } else {
+            gsap.to(vehicleFoundRef.current, {
+                transform: 'translateY(100%)',
+            })
+        }
+    }, [vehicleFound]);
 
 
     return (
@@ -104,42 +136,18 @@ const Home = () => {
                     <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} />
                 </div>
             </div>
-            <div ref={vehiclePanelOpenRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 bg-white">
-                <h5 className="p-1 text-center w-[93%] absolute top-0" onClick={() => {
-                    setVehiclePanelOpen(false);
-                }}>
-                    <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
-                </h5>
-                <h3 className="text-2xl font-semibold mb-5">Choose a Ride</h3>
-                <div className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-                    <img className="h-10" src="/images/NaviGo_Car.webp" alt="NaviGo_Car" />
-                    <div className="w-1/2">
-                        <h4 className="font-medium text-base">Car <span><i className="ri-user-3-fill"></i>4</span></h4>
-                        <h5 className="font-medium text-sm">2 mins away</h5>
-                        <p className="font-normal text-xs text-gray-600">Affordable, compact rides</p>
-                    </div>
-                    <h2 className="text-lg font-semibold">₹193</h2>
-                </div>
-                <div className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-                    <img className="h-10" src="/images/NaviGo_Moto.webp" alt="NaviGo_Car" />
-                    <div className="w-1/2">
-                        <h4 className="font-medium text-base">Moto <span><i className="ri-user-3-fill"></i>1</span></h4>
-                        <h5 className="font-medium text-sm">1 min away</h5>
-                        <p className="font-normal text-xs text-gray-600">Affordable motorcycle rides</p>
-                    </div>
-                    <h2 className="text-lg font-semibold">₹48</h2>
-                </div>
-                <div className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between">
-                    <img className="h-10" src="/images/NaviGo_Auto.webp" alt="NaviGo_Car" />
-                    <div className="w-1/2">
-                        <h4 className="font-medium text-base">Auto <span><i className="ri-user-3-fill"></i>3</span></h4>
-                        <h5 className="font-medium text-sm">3 mins away</h5>
-                        <p className="font-normal text-xs text-gray-600">Affordable auto rides</p>
-                    </div>
-                    <h2 className="text-lg font-semibold">₹85</h2>
-                </div>
+            <div ref={vehiclePanelOpenRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
+                <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanelOpen={setVehiclePanelOpen} />
             </div>
-
+            <div ref={confirmRidePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
+                <ConfirmRide setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+            </div>
+            <div ref={vehicleFoundRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
+                <LookingForDriver setVehicleFound={setVehicleFound}/>
+            </div>
+            <div className="fixed w-full z-10 bottom-0 px-3 py-6 pt-12 bg-white">
+                <WaitingForDriver />
+            </div>
         </div>
     );
 }
