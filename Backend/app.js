@@ -11,7 +11,11 @@ const captainRoutes = require('./routes/captain.routes');
 connectToDb();
 app.use(cookiesParser()); //parse cookies
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173', // Allow frontend origin
+    credentials: true, // Allow cookies
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

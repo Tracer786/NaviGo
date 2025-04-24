@@ -10,34 +10,58 @@ const CaptainProtectWrapper = ({ children }) => {
     const {captain, setCaptain} = useContext(CaptainDataContext);
     const [isLoading, setIsLoading] = useState(true);
 
+    // useEffect(() => {
+    //     if (!token) {
+    //         navigate("/captainlogin");
+    //     }
+    // }, [token, navigate]);
+
+    // axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`,{
+    //     headers: {
+    //         Authorization: `Bearer ${token}`,
+    //     }
+    // }).then(response => {
+    //     if(response.status === 200) {
+    //         const data = response.data;
+    //         setCaptain(data.captain);
+    //         setIsLoading(false);
+    //     }
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    //     localStorage.removeItem("token");
+    //     navigate("/captainlogin");
+    // })
+
+    // if(isLoading) {
+    //     return (
+    //         <div>Loading...</div>
+    //     )
+    // }
+
     useEffect(() => {
         if (!token) {
             navigate("/captainlogin");
+        } else {
+            axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    const data = response.data;
+                    setCaptain(data.captain);
+                    setIsLoading(false);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                localStorage.removeItem("token");
+                navigate("/captainlogin");
+            });
         }
-    }, [token, navigate]);
-
-    axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`,{
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    }).then(response => {
-        if(response.status === 200) {
-            const data = response.data;
-            setCaptain(data.captain);
-            setIsLoading(false);
-        }
-    })
-    .catch(err => {
-        console.log(err);
-        localStorage.removeItem("token");
-        navigate("/captainlogin");
-    })
-
-    if(isLoading) {
-        return (
-            <div>Loading...</div>
-        )
-    }
+    }, [token, navigate, setCaptain]);
 
     return <>{children}</>;
 }
