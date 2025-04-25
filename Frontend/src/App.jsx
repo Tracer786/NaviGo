@@ -12,6 +12,8 @@ import {UserDataContext}  from "./context/UserContext";
 import UserProtectWrapper from "./pages/UserProtectWrapper";
 import CaptainProtectWrapper from "./pages/CaptainProtectWrapper";
 import Riding from "./pages/Riding";
+import CaptainRiding from "./pages/CaptainRiding";
+import 'remixicon/fonts/remixicon.css';
 
 const App = () => {
     // const ans = UserContext(UserDataContext)
@@ -26,6 +28,7 @@ const App = () => {
                 <Route path="/usersignup" element={<UserSignup />} />
                 <Route path="/captainlogin" element={<CaptainLogin />} />
                 <Route path="/captainsignup" element={<CaptainSignup />} />
+                <Route path="/captainriding" element={<CaptainRiding />} />
                 <Route path="/home" element={
                     <UserProtectWrapper>
                         <Home />

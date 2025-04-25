@@ -1,11 +1,47 @@
-import React from 'react';
+import React, { useState, useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
 import { Link } from 'react-router-dom';
+import CaptainDetails from '../components/CaptainDetails';
+import RidePopUp from '../components/RidePopUp';
+import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 
 const CaptainHome = () => {
+
+  const ridePopupPanelRef = useRef(null);
+  const confirmRidePopupPanelRef = useRef(null);
+  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
+
+  useGSAP(function () {
+    if (ridePopupPanel) {
+      gsap.to(ridePopupPanelRef.current, {
+        transform: 'translateY(0)',
+      })
+    } else {
+      gsap.to(ridePopupPanelRef.current, {
+        transform: 'translateY(100%)',
+      })
+    }
+  }, [ridePopupPanel]);
+
+  useGSAP(function () {
+    if (confirmRidePopupPanel) {
+      gsap.to(confirmRidePopupPanelRef.current, {
+        transform: 'translateY(0)',
+      })
+    } else {
+      gsap.to(confirmRidePopupPanelRef.current, {
+        transform: 'translateY(100%)',
+      })
+    }
+  }, [confirmRidePopupPanel]);
+
+
   return (
     <div className="h-screen">
-      <div className='fixed p-3 top-0 flex  items-center justify-between w-screen'>
-      <img className="w-16" src="/images/NaviGo_Logo.png" alt="NaviGo Logo" />
+      <div className="fixed p-6 top-0 flex  items-center justify-between w-screen">
+        <img className="w-16" src="/images/NaviGo_Logo.png" alt="NaviGo Logo" />
         <Link
           to="/home"
           className=" h-10 w-10 bg-white flex items-center justify-center rounded-full"
@@ -13,49 +49,21 @@ const CaptainHome = () => {
           <i className="ri-logout-box-r-line"></i>
         </Link>
       </div>
-      <div className="h-1/2">
+      <div className="h-3/5">
         <img
           className="h-full w-full object-cover"
           src="/images/Home_Map_Gif_Image.gif"
           alt="Home Page"
         />
       </div>
-      <div className="h-1/2 p-4">
-        <div className="flex items-center justify-between">
-          <img
-            className="h-12"
-            src="/images/NaviGo_Car.webp"
-            alt="NaviGo_Car"
-          />
-          <div className="text-right">
-            <h2 className="text-lg font-medium">Mirul</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">PB04 AB 1234</h4>
-            <p className="text-sm font-grey-600">Maruti Suzuki Alto</p>
-          </div>
-        </div>
-        <div className="flex gap-2 justify-between flex-col items-center">
-          <div className="w-full mt-5">
-            <div className="flex items-center gap-5 p-3 border-b-2 border-gray-200">
-              <i className="text-lg ri-map-pin-user-fill"></i>
-              <div>
-                <h3 className="text-lg font-medium">103/A</h3>
-                <p className="text-sm -mt-1 text-color-600">
-                  Sector-41, Gurgaon
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-5 p-3">
-              <i className="text-lg ri-currency-fill"></i>
-              <div>
-                <h3 className="text-lg font-medium">₹193.20</h3>
-                <p className="text-sm -mt-1 text-color-600">Cash Cash</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
-          Make a Payment
-        </button>
+      <div className="h-2/5 p-6">
+        <CaptainDetails />
+      </div>
+      <div ref={ridePopupPanelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
+        <RidePopUp setRidePopupPanel={setRidePopupPanel}  setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
+      </div>
+      <div ref={confirmRidePopupPanelRef} className="fixed h-screen w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
+        <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel}  setRidePopupPanel={setRidePopupPanel}/>
       </div>
     </div>
   );
