@@ -9,7 +9,7 @@ module.exports.createRide = async (req, res) => {
 
     try {
         const { userId, pickup, destination, vehicleType } = req.body;
-        const ride = await rideService.createRide({ userId, pickup, destination, vehicleType });
+        const ride = await rideService.createRide({user :  req.user._id, pickup, destination, vehicleType });
         return res.status(201).json(ride);
     } catch (error) {
         console.error('Error creating ride:', error.message);

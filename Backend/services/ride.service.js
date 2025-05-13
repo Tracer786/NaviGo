@@ -26,20 +26,11 @@ async function getFare(pickup, destination) {
     car: 3,
   };
 
-  const fare = {
-    auto:
-      baseFare.auto +
-      distanceTime.distance * perKmRate.auto +
-      distanceTime.time * perMinuteRate.auto,
-    motorcycle:
-      baseFare.motorcycle +
-      distanceTime.distance * perKmRate.motorcycle +
-      distanceTime.time * perMinuteRate.motorcycle,
-    car:
-      baseFare.car +
-      distanceTime.distance * perKmRate.car +
-      distanceTime.time * perMinuteRate.car,
-  };
+const fare = {
+    auto: Number((baseFare.auto + ((distanceTime.distance_value / 1000) * perKmRate.auto) + ((distanceTime.duration_value / 60) * perMinuteRate.auto)).toFixed(2)),
+    motorcycle: Number((baseFare.motorcycle + ((distanceTime.distance_value / 1000) * perKmRate.motorcycle) + ((distanceTime.duration_value / 60) * perMinuteRate.motorcycle)).toFixed(2)),
+    car: Number((baseFare.car + ((distanceTime.distance_value / 1000) * perKmRate.car) + ((distanceTime.duration_value / 60) * perMinuteRate.car)).toFixed(2))
+};
 
   return fare;
 }

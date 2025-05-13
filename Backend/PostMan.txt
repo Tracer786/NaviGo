@@ -50,20 +50,33 @@ curl --location 'http://localhost:4000/users/logout'   Run and try to again to r
 
 
 
-6. Get_Coordinates (User Register Token)
+6. Get_Coordinates (User Register Token)(GET)
 
 curl --location 'http://localhost:4000/maps/get-coordinates?address=Model%20Town&Authorization=bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIxZTAyMTRkZGE4ZTY2NzI5NmJjYTgiLCJpYXQiOjE3NDcwNTA1MjksImV4cCI6MTc0NzEzNjkyOX0.I_eqSm-T-k0OhYg9k-ri3fdcTlPg_zv0lfVurY6eu80' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
 
 
 
-7. Get_Distance_Time
+7. Get_Distance_Time (GET)
 
 curl --location 'http://localhost:4000/maps/get-distance-time?origin=Welcome%20PG%2C%20Sector-41%2C%20Gurgaon&destination=Millenium%20City%20Center%2C%20Sector-43%2C%20Gurgaon' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
 
 
-8. Get_Suggestions
+8. Get_Suggestions (GET)
 
 curl --location 'http://localhost:4000/maps//get-suggestions?input=Millenium%20City%20Center' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
+
+
+
+9. Create Ride (POST)
+
+curl --location 'http://localhost:4000/rides/create' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIzMzVlMTBlMWY3NGE3ZmRjOGMwMjYiLCJpYXQiOjE3NDcxMzgwMTcsImV4cCI6MTc0NzIyNDQxN30.KQc87liudeYCBHWd2eTKE1_ng7nBGl4Kg4L2TI-QjZ0' \
+--data '{
+    "pickup": "Sector-41, Gurgaon",
+    "destination": "Sector-43, Gurgaon",
+    "vehicleType": "car"
+}'
