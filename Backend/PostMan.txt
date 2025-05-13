@@ -1,4 +1,5 @@
-generate docs for /users/profile  and /users/logout . I want information like description, req method and URL, request data(text and json), field details, data validation, request response(text and json), validation errors. give with an  example
+Docs Generation Prompt: 
+Generate docs for /users/profile  and /users/logout . I want information like description, req method and URL, request data(text and json), field details, data validation, request response(text and json), validation errors. give with an  example
 
 
 1. User Registration (POST)
@@ -14,6 +15,8 @@ curl --location 'http://localhost:4000/users/register' \
     "password" : "NaviGo"
 }'
 
+
+
 2. User Login (POST)
 
 curl --location 'http://localhost:4000/users/login' \
@@ -23,10 +26,14 @@ curl --location 'http://localhost:4000/users/login' \
     "password" : "NaviGo"
 }'
 
+
+
 3. User Profile (Token -> from login)(GET)
 
 curl --location 'http://localhost:4000/users/profile' \
 --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2YxNjExNGI5NjRjYTI3MWEwN2Q4MTgiLCJpYXQiOjE3NDM4NzIzNDZ9.qW00zdMIBA2adH62jbiGCYfbvSifAPo3Ncf0bt5jxEM'
+
+
 
 
 4. User Profile (Cookie)(GET)
@@ -35,6 +42,28 @@ curl --location 'http://localhost:4000/users/profile' \
 --header 'Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2YyMzRkYTg2ZmE1NWVlNDQ5YjM4ZGQiLCJpYXQiOjE3NDM5MjcwODB9.80QmleK7tMWyiib0-j3minRVn1CAxIuf3P9sbwMy518'
 
 
+
+
 5. User Logout (GET)
 
 curl --location 'http://localhost:4000/users/logout'   Run and try to again to run the profile. It won't fetch data.
+
+
+
+6. Get_Coordinates (User Register Token)
+
+curl --location 'http://localhost:4000/maps/get-coordinates?address=Model%20Town&Authorization=bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIxZTAyMTRkZGE4ZTY2NzI5NmJjYTgiLCJpYXQiOjE3NDcwNTA1MjksImV4cCI6MTc0NzEzNjkyOX0.I_eqSm-T-k0OhYg9k-ri3fdcTlPg_zv0lfVurY6eu80' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
+
+
+
+7. Get_Distance_Time
+
+curl --location 'http://localhost:4000/maps/get-distance-time?origin=Welcome%20PG%2C%20Sector-41%2C%20Gurgaon&destination=Millenium%20City%20Center%2C%20Sector-43%2C%20Gurgaon' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
+
+
+8. Get_Suggestions
+
+curl --location 'http://localhost:4000/maps//get-suggestions?input=Millenium%20City%20Center' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIyY2JmODM1Y2M1ODkyZWIxY2RhOTEiLCJpYXQiOjE3NDcxMTA5MDQsImV4cCI6MTc0NzE5NzMwNH0.WKYjc7dYxK2unjmtd9_D6Hjm932R54TSqQ-tLTS3ks4'
