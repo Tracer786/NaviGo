@@ -51,3 +51,28 @@ module.exports.getDistanceAndTime = async (origin, destination) => {
         throw error;
     }
 }
+
+module.exports.getAutoCompleteSuggestions = async (input) => {
+    if (!input) {
+        throw new Error('Input is required');
+    }
+
+    try {
+        const apiKey = process.env.GOOGLE_MAPS_API; // Replace with your Google Maps API key
+        const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${apiKey}`;
+
+        const response = await axios.get(url);
+
+        if (response.data.status === 'OK') {
+            return response.data.predictions.map(prediction => ({
+                description: prediction.description,
+                place_id: prediction.place_id
+            }));
+        } else {
+            throw new Error(`Autocomplete API error: ${response.data.status}`);
+        }
+    } catch (error) {
+        console.error('Error fetching autocomplete suggestions:', error.message);
+        throw error;
+    }
+}

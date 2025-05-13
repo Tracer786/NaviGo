@@ -21,7 +21,14 @@ router.get('/get-distance-time',
     // query('destination').isLength({ min: 3, max: 100 }).withMessage('Destination must be between 3 and 100 characters'), // Validate destination length
     query('origin').isString().isLength({min: 3,max: 100}).notEmpty().withMessage('Origin must be a string and between 3 and 100 characters'), // Validate origin type and length
     query('destination').isString().isLength({min: 3,max: 100}).notEmpty().withMessage('Destination must be a string and between 3 and 100 characters'), // Validate destination type and length
-    authMiddleware.authUser, mapController.getDistanceAndTime // Get distance and time between two locations
+    authMiddleware.authUser, 
+    mapController.getDistanceAndTime // Get distance and time between two locations
+)
+
+router.get('/get-suggestions',
+    query('input').isString().isLength({min: 3,max: 100}).notEmpty().withMessage('Input must be a string and between 3 and 100 characters'), // Validate input type and length
+    authMiddleware.authUser,
+    mapController.getAutoCompleteSuggestions // Get address suggestions based on user input
 )
 
     
