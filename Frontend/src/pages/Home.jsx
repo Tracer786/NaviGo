@@ -36,8 +36,12 @@ const Home = () => {
             return;
         }
         try {
+            const token = localStorage.getItem('token'); // adjust if needed
             const response = await axios.get("http://localhost:4000/maps/get-suggestions", {
-                params: { input }
+                params: { input },
+                headers: {
+                Authorization: token ? `Bearer ${token}` : ""
+            }
             });
             setSuggestions(response.data);
         } catch (error) {
