@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import 'remixicon/fonts/remixicon.css';
@@ -25,6 +26,24 @@ const Home = () => {
     const [vehicleFound, setVehicleFound] = useState(false);
     const [waitingForDriver, setWaitingForDriver] = useState(false);
     // vehicle panel open
+
+    // New state for suggestions
+    const [suggestions, setSuggestions] = useState([]);
+    const [activeField, setActiveField] = useState(""); // "pickup" or "destination"
+    const fetchSuggestions = async (input) => {
+        if (!input) {
+            setSuggestions([]);
+            return;
+        }
+        try {
+            const response = await axios.get("http://localhost:4000/maps/get-suggestions", {
+                params: { input }
+            });
+            setSuggestions(response.data);
+        } catch (error) {
+            console.error("Error fetching suggestions", error);
+        }
+    };
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -122,32 +141,47 @@ const Home = () => {
                         <i className="ri-arrow-down-wide-line"></i>
                     </h5>
                     <h4 className="text-2xl font-semibold">Find a trip</h4>
-                    <form onSubmit={(e) => {
-                        submitHandler(e);
-                    }}>
+                    <form onSubmit={submitHandler}>
                         <div className="line absolute h-16 w-1 top-[36%] bg-gray-500 left-10 rounded-full"></div>
                         <input
                             onClick={() => {
+                                setActiveField("pickup");
                                 setPanelOpen(true);
                             }}
                             value={pickup}
                             onChange={(e) => {
                                 setPickup(e.target.value);
+                                fetchSuggestions(e.target.value);
                             }}
                             className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3" type="text" placeholder="Add a pick-up location" />
                         <input
                             onClick={() => {
+                                setActiveField("destination");
                                 setPanelOpen(true);
                             }}
                             value={destination}
                             onChange={(e) => {
                                 setDestination(e.target.value);
+                                fetchSuggestions(e.target.value);
                             }}
                             className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5" type="text" placeholder="Enter your destination" />
                     </form>
                 </div>
                 <div ref={panelRef} className="bg-white h-0">
-                    <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} />
+                    {/* <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} /> */}
+                    {/* Pass suggestions and callback to update the input field */}
+                    <LocationSearchPanel
+                        setPanelOpen={setPanelOpen}
+                        suggestions={suggestions}
+                        onSuggestionSelect={(suggestion) => {
+                            if (activeField === "pickup") {
+                                setPickup(suggestion.description);
+                            } else {
+                                setDestination(suggestion.description);
+                            }
+                            setPanelOpen(false);
+                        }}
+                    />
                 </div>
             </div>
             <div ref={vehiclePanelOpenRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
