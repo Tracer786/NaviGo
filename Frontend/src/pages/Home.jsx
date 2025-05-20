@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect} from "react";
 import axios from "axios";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
@@ -13,6 +13,7 @@ import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
     const [pickup, setPickup] = useState("");
+    const [token, setToken] = useState("");
     const [destination, setDestination] = useState("");
     const [panelOpen, setPanelOpen] = useState(false);
     const panelRef = useRef(null);
@@ -30,18 +31,25 @@ const Home = () => {
     // New state for suggestions
     const [suggestions, setSuggestions] = useState([]);
     const [activeField, setActiveField] = useState(""); // "pickup" or "destination"
+    
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            setToken(storedToken);
+        }
+    }, []);
+    
     const fetchSuggestions = async (input) => {
         if (!input) {
             setSuggestions([]);
             return;
         }
         try {
-            const token = localStorage.getItem('token'); // adjust if needed
             const response = await axios.get("http://localhost:4000/maps/get-suggestions", {
                 params: { input },
                 headers: {
-                Authorization: token ? `Bearer ${token}` : ""
-            }
+                    Authorization: token ? `Bearer ${token}` : ""
+                }
             });
             setSuggestions(response.data);
         } catch (error) {
