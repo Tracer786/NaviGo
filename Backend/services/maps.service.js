@@ -98,6 +98,9 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
         structured_formatting: prediction.structured_formatting,
         matched_substrings: prediction.matched_substrings,
       }));
+    } else if (response.data.status === 'ZERO_RESULTS') {
+      // Instead of throwing an error, return an empty array.
+      return [];
     } else {
       throw new Error(`Autocomplete API error: ${response.data.status}`);
     }

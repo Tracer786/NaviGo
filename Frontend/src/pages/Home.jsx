@@ -45,7 +45,7 @@ const Home = () => {
             return;
         }
         try {
-            const response = await axios.get("http://localhost:4000/maps/get-suggestions", {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`, {
                 params: { input },
                 headers: {
                     Authorization: token ? `Bearer ${token}` : ""
