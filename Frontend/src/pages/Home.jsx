@@ -136,6 +136,13 @@ const Home = () => {
         }
     }, [waitingForDriver]);
 
+    function findTrip() {
+        // Logic to find a trip
+        setVehiclePanelOpen(true);
+        setPanelOpen(false);
+        console.log("Finding trip...");
+    }
+
 
     return (
         <div className="h-screen relative overflow-hidden">
@@ -178,6 +185,11 @@ const Home = () => {
                             }}
                             className="bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5" type="text" placeholder="Enter your destination" />
                     </form>
+                    <button 
+                    onClick={findTrip}
+                    className="w-full bg-black text-white py-3 rounded-lg mt-5 text-center">
+                        Find Trip
+                    </button>
                 </div>
                 <div ref={panelRef} className="bg-white h-0">
                     {/* <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanelOpen={setVehiclePanelOpen} /> */}
@@ -192,7 +204,7 @@ const Home = () => {
                                 setDestination(suggestion.description);
                             }
                             // setPanelOpen(false);
-                            setPanelOpen(open);
+                            setPanelOpen(true);
                         }}
                     />
                 </div>
