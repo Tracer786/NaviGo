@@ -191,7 +191,8 @@ const Home = () => {
                             } else {
                                 setDestination(suggestion.description);
                             }
-                            setPanelOpen(false);
+                            // setPanelOpen(false);
+                            setPanelOpen(open);
                         }}
                     />
                 </div>
