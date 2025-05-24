@@ -737,3 +737,74 @@ curl -X GET http://localhost:3000/captains/logout \
 ```
 
 ---
+
+## /rides/get-fare Endpoint
+
+### Description
+
+The `/rides/get-fare` endpoint calculates fare estimates for a ride based on the provided pickup and destination addresses. The fare is computed for different vehicle types (auto, motorcycle, car) using distance and duration data retrieved from the maps service.
+
+### Request Method & URL
+
+- **Method:** GET
+- **URL:** `/rides/get-fare`
+
+### Request Data
+
+Query Parameters:
+- `pickup`: string (required, between 3 and 100 characters)
+- `destination`: string (required, between 3 and 100 characters)
+
+#### Example Request (using cURL)
+
+```sh
+curl -X GET "http://localhost:4000/rides/get-fare?pickup=Sector-41%20Gurgaon&destination=Sector-43%20Gurgaon" \
+  -H "Authorization: Bearer <JWT_TOKEN>"
+```
+
+### Field Details
+
+- **pickup:** The starting address for the ride. Required, 3-100 characters.
+- **destination:** The destination address for the ride. Required, 3-100 characters.
+
+### Data Validation
+
+- Both query parameters must be non-empty strings between 3 and 100 characters.
+- On validation failure, it returns a **400 Bad Request** with error details.
+
+### Response
+
+#### Success
+
+- **Status Code:** `200 OK`
+- **Response Body (JSON):**
+
+```json
+{
+  "auto": 68.50,
+  "motorcycle": 45.00,
+  "car": 80.00
+}
+```
+
+#### Validation Error
+
+- **Status Code:** `400 Bad Request`
+- **Response Body (JSON):**
+
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid pickup address",
+      "param": "pickup",
+      "location": "query"
+    },
+    {
+      "msg": "Invalid destination address",
+      "param": "destination",
+      "location": "query"
+    }
+  ]
+}
+```

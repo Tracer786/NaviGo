@@ -26,6 +26,7 @@ const Home = () => {
     const [confirmRidePanel, setConfirmRidePanel] = useState(false);
     const [vehicleFound, setVehicleFound] = useState(false);
     const [waitingForDriver, setWaitingForDriver] = useState(false);
+    const [fare, setFare] = useState({}); // Initialize fare state
     // vehicle panel open
 
     // New state for suggestions
@@ -136,12 +137,25 @@ const Home = () => {
         }
     }, [waitingForDriver]);
 
-    function findTrip() {
-        // Logic to find a trip
-        setVehiclePanelOpen(true);
-        setPanelOpen(false);
-        console.log("Finding trip...");
-    }
+    async function findTrip() {
+    // Logic to find a trip
+    setVehiclePanelOpen(true);
+    setPanelOpen(false);
+
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+        params: {
+            pickup:pickup,
+            destination: destination,
+        },
+        headers: {
+            // Authorization: token ? `Bearer ${token}` : "",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+    });
+    
+    console.log("Fare response:", response.data);
+    setFare(response.data); // update fare state
+}
 
 
     return (
@@ -210,7 +224,7 @@ const Home = () => {
                 </div>
             </div>
             <div ref={vehiclePanelOpenRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
-                <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanelOpen={setVehiclePanelOpen} />
+                <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanelOpen={setVehiclePanelOpen} />
             </div>
             <div ref={confirmRidePanelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-6 pt-12 bg-white">
                 <ConfirmRide setVehiclePanelOpen={setVehiclePanelOpen} setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
