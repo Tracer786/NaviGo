@@ -13,7 +13,10 @@ const VehiclePanel = (props) => {
       </h5>
       <h3 className="text-2xl font-semibold mb-5">Choose a Ride</h3>
       <div
-        onClick={() => props.setConfirmRidePanel(true)}
+        onClick={() => {
+            props.setConfirmRidePanel(true)
+            props.selectVehicle('car')
+        }}
         className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between"
       >
         <img className="h-10" src="/images/NaviGo_Car.webp" alt="NaviGo_Car" />
@@ -32,7 +35,10 @@ const VehiclePanel = (props) => {
         <h2 className="text-lg font-semibold">₹{props.fare?.car}</h2>
       </div>
       <div
-        onClick={() => props.setConfirmRidePanel(true)}
+        onClick={() => {
+            props.setConfirmRidePanel(true)
+            props.selectVehicle('motorcycle')
+        }}
         className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between"
       >
         <img className="h-10" src="/images/NaviGo_Moto.webp" alt="NaviGo_Car" />
@@ -51,7 +57,10 @@ const VehiclePanel = (props) => {
         <h2 className="text-lg font-semibold">₹{props.fare?.motorcycle}</h2>
       </div>
       <div
-        onClick={() => props.setConfirmRidePanel(true)}
+        onClick={() => {
+            props.setConfirmRidePanel(true)
+            props.selectVehicle('auto')
+        }}
         className="flex border-2 border-gray-100  active:border-black mb-2 rounded-xl w-full p-3 items-center justify-between"
       >
         <img className="h-10" src="/images/NaviGo_Auto.webp" alt="NaviGo_Car" />
