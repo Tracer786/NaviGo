@@ -5,6 +5,11 @@ const port = process.env.PORT || 3000;
 //create server
 const server = http.createServer(app);
 
+// New code: initialize socket after server creation
+const { initializeSocket } = require('./socket');
+initializeSocket(server);
+
+
 // server.listen(3000); //on which port to run the server
 
 //if we don't want to use the fixed port and want env. variable to tell which port we are using
