@@ -6,36 +6,34 @@ export const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   const socketRef = useRef();
 
-  // ...basic connection logic...
+  // Basic connection logic
   useEffect(() => {
     socketRef.current = io(`${import.meta.env.VITE_BASE_URL}`); // Adjust the URL as needed
-    // Connection logic: log when connected
     socketRef.current.on('connect', () => {
       console.log('Socket connected:', socketRef.current.id);
     });
     
-    // Disconnection logic: log when disconnected
     socketRef.current.on('disconnect', () => {
       console.log('Socket disconnected');
     });
     
     return () => {
       socketRef.current.disconnect();
-    }
+    };
   }, []);
 
-  // Function to send message to a specific event
+  // Function to send a message on a specific event
   const sendMessage = (eventName, message) => {
     socketRef.current.emit(eventName, message);
-  }
+  };
 
-  // Function to subscribe to a specific event
-  const subscribe = (eventName, callback) => {
+  // Function to receive a message from a specific event
+  const receiveMessage = (eventName, callback) => {
     socketRef.current.on(eventName, callback);
-  }
+  };
 
   return (
-    <SocketContext.Provider value={{ sendMessage, subscribe }}>
+    <SocketContext.Provider value={{ sendMessage, receiveMessage }}>
       {children}
     </SocketContext.Provider>
   );

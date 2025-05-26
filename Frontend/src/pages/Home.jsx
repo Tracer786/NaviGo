@@ -8,6 +8,7 @@ import VehiclePanel from '../components/VehiclePanel';
 import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
+import { SocketContext } from '../context/SocketContext';
 
 // gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -28,6 +29,8 @@ const Home = () => {
   const [waitingForDriver, setWaitingForDriver] = useState(false);
   const [fare, setFare] = useState({}); // Initialize fare state
   const [vehicleType, setVehicleType] = useState(null); // Initialize vehicle type state
+  
+
   // vehicle panel open
 
   // New state for suggestions
