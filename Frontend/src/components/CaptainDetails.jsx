@@ -11,6 +11,7 @@ const CaptainDetails = () => {
           <div className='flex items-center justify-start gap-4'>
             <img className='h-10 w-10 rounded-full object-cover' src="/images/Captain_Image.jpeg" alt="Captain_Image" />
             <h4 className='text-lg font-medium capitalize'>{captain.fullname.firstname + " " + captain.fullname.lastname}</h4>
+            {/* <h4 className='text-lg font-medium capitalize'>Amir</h4> */}
           </div>
           <div>
             <h4 className='text-xl font-semibold'>₹295.20</h4>
