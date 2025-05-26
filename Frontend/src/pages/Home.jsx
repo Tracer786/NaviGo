@@ -29,7 +29,7 @@ const Home = () => {
   const [waitingForDriver, setWaitingForDriver] = useState(false);
   const [fare, setFare] = useState({}); // Initialize fare state
   const [vehicleType, setVehicleType] = useState(null); // Initialize vehicle type state
-  
+  // const {sendMessage, receiveMessage} = useContext(SocketContext); // Access the socket context
 
   // vehicle panel open
 
@@ -37,12 +37,12 @@ const Home = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [activeField, setActiveField] = useState(''); // "pickup" or "destination"
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem('token');
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   }
+  // }, []);
 
   const fetchSuggestions = async (input) => {
     if (!input) {
@@ -55,7 +55,8 @@ const Home = () => {
         {
           params: { input },
           headers: {
-            Authorization: token ? `Bearer ${token}` : '',
+            // Authorization: token ? `Bearer ${token}` : '',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
@@ -64,7 +65,6 @@ const Home = () => {
       console.error('Error fetching suggestions', error);
     }
   };
-
   const submitHandler = (e) => {
     e.preventDefault();
     console.log('Form submitted');
@@ -97,7 +97,6 @@ const Home = () => {
     },
     [panelOpen]
   );
-
   useGSAP(
     function () {
       if (vehiclePanelOpen) {
@@ -112,7 +111,6 @@ const Home = () => {
     },
     [vehiclePanelOpen]
   );
-
   useGSAP(
     function () {
       if (confirmRidePanel) {
@@ -127,7 +125,6 @@ const Home = () => {
     },
     [confirmRidePanel]
   );
-
   useGSAP(
     function () {
       if (vehicleFound) {
@@ -142,7 +139,6 @@ const Home = () => {
     },
     [vehicleFound]
   );
-
   useGSAP(
     function () {
       if (waitingForDriver) {
@@ -157,7 +153,6 @@ const Home = () => {
     },
     [waitingForDriver]
   );
-
   async function findTrip() {
     // Logic to find a trip
     setVehiclePanelOpen(true);
@@ -180,7 +175,6 @@ const Home = () => {
     console.log('Fare response:', response.data);
     setFare(response.data); // update fare state
   }
-
   async function createRide() {
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
@@ -197,7 +191,6 @@ const Home = () => {
     );
     console.log('Ride response:', response.data);
   }
-
   return (
     <div className="h-screen relative overflow-hidden">
       <img
