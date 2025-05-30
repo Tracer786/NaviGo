@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, use } from 'react';
 import axios from 'axios';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -43,6 +43,10 @@ const Home = () => {
   //     setToken(storedToken);
   //   }
   // }, []);
+
+  // useEffect(() => {
+  //   sendMessage("join", { userType: "home" , userId : });
+  // })
 
   const fetchSuggestions = async (input) => {
     if (!input) {

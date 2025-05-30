@@ -53,19 +53,27 @@ const CaptainProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // On mount, re-fetch captain details from DB using the token from localStorage
+    // On mount, re-fetch captain details using the token from localStorage
     useEffect(() => {
         async function fetchCaptainData() {
+            const token = localStorage.getItem('token');
+            if (!token || token === "undefined") {
+                // No token means user is not logged in; skip API call.
+                setIsLoading(false);
+                return;
+            }
             try {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`, {
-                        headers: { Authorization: `Bearer ${token}` },
-                    });
-                    // Assuming response.data.captain has the correct captain object
-                    setCaptain(response.data.captain);
-                }
+                const response = await axios.get(
+                    `${import.meta.env.VITE_BASE_URL}/captains/profile`,
+                    { headers: { Authorization: `Bearer ${token}` } }
+                );
+                // Assuming response.data.captain holds the correct object
+                setCaptain(response.data.captain);
             } catch (err) {
+                // If unauthorized, clear the token to prevent further API calls
+                if (err.response && err.response.status === 401) {
+                    localStorage.removeItem('token');
+                }
                 setError(err);
             } finally {
                 setIsLoading(false);
@@ -74,16 +82,15 @@ const CaptainProvider = ({ children }) => {
         fetchCaptainData();
     }, []);
 
-    // Direct update function (make sure it uses the parameter!)
+    // Direct update function using the provided parameter
     const updateCaptain = (newCaptainData) => {
         setCaptain(newCaptainData);
     };
 
-    // Render children only when data has loaded so they always receive valid data
+    // Render children only when data has loaded
     if (isLoading) {
         return <div>Loading...</div>;
     }
-
     if (error) {
         return <div>Error fetching captain data.</div>;
     }
