@@ -25,6 +25,29 @@ function initializeSocket(server) {
       }
     });
 
+    socket.on('update-location', async (data)=>{
+      const {userId, userType, location} = data;
+      console.log(`User ${userId} updated location: ${location}`);
+      if (userType === 'user') {
+        await userModel.findByIdAndUpdate(userId, { location });
+      } else if (userType === 'captain') {
+        await captainModel.findByIdAndUpdate(userId, { location });
+      }
+    })
+
+    socket.on('update-location-captain', async (data)=>{
+      const {userId, location} = data;
+      if (!location || !location.ltd || !location.lng) {
+        console.error('Invalid location data received');
+        return socket.emit('error', 'Invalid location data');
+      }
+      console.log(`Captain ${userId} updated location: ${location}`);
+      await captainModel.findByIdAndUpdate(userId, { location : {
+        ltd: location.ltd,
+        lng: location.lng
+      } });
+    })
+
     socket.on('disconnect', () => {
       // console.log('Client disconnected:', socket.id);
       console.log(`Client disconnected: ${socket.id}`);

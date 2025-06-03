@@ -1,4 +1,5 @@
 const axios = require('axios');
+const captainModel = require('../models/captain.model'); // Adjust the path as necessary
 
 module.exports.getAddressCoordinate = async (address) => {
   try {
@@ -109,3 +110,31 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     throw error;
   }
 };
+
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+  if (!ltd || !lng || !radius) {
+    throw new Error('Latitude, longitude, and radius are required');
+  }
+
+  try {
+    const captains = await captainModel.find({
+      location: {
+        $geoWithin: {
+          $centerSphere: [[lng, ltd], radius / 6378.1], // Radius in radians
+        },
+      },
+    });
+
+    // return captains.map((captain) => ({
+    //   _id: captain._id,
+    //   name: captain.name,
+    //   email: captain.email,
+    //   phone: captain.phone,
+    //   location: captain.location,
+    // }));
+    return captains;
+  } catch (error) {
+    console.error('Error fetching captains in the radius:', error.message);
+    throw error;
+  }
+}

@@ -1,42 +1,73 @@
-import React, { useState, useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useGSAP } from '@gsap/react';
+import { gsap } from 'gsap';
 import { Link } from 'react-router-dom';
 import CaptainDetails from '../components/CaptainDetails';
 import RidePopUp from '../components/RidePopUp';
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
+import { SocketContext } from '../context/SocketContext';
+import { CaptainDataContext } from '../context/CaptainContext';
 
 const CaptainHome = () => {
-
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
   const [ridePopupPanel, setRidePopupPanel] = useState(true);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
+  const { socket } = useContext(SocketContext);
+  const { captain } = useContext(CaptainDataContext);
 
-  useGSAP(function () {
-    if (ridePopupPanel) {
-      gsap.to(ridePopupPanelRef.current, {
-        transform: 'translateY(0)',
-      })
-    } else {
-      gsap.to(ridePopupPanelRef.current, {
-        transform: 'translateY(100%)',
-      })
+  useEffect(() => {
+    if (socket && captain) {
+      socket.emit('join', {
+        userId: captain._id,
+        userType: 'captain',
+      });
+
+      const locationInterval = setInterval(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          socket.emit('update-location-captain', {
+            captainId: captain._id,
+            location: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            },
+          });
+        });
+      }, 10000);
+
+      return () => clearInterval(locationInterval);
     }
-  }, [ridePopupPanel]);
+  }, [socket, captain]);
 
-  useGSAP(function () {
-    if (confirmRidePopupPanel) {
-      gsap.to(confirmRidePopupPanelRef.current, {
-        transform: 'translateY(0)',
-      })
-    } else {
-      gsap.to(confirmRidePopupPanelRef.current, {
-        transform: 'translateY(100%)',
-      })
-    }
-  }, [confirmRidePopupPanel]);
+  useGSAP(
+    function () {
+      if (ridePopupPanel) {
+        gsap.to(ridePopupPanelRef.current, {
+          transform: 'translateY(0)',
+        });
+      } else {
+        gsap.to(ridePopupPanelRef.current, {
+          transform: 'translateY(100%)',
+        });
+      }
+    },
+    [ridePopupPanel]
+  );
 
+  useGSAP(
+    function () {
+      if (confirmRidePopupPanel) {
+        gsap.to(confirmRidePopupPanelRef.current, {
+          transform: 'translateY(0)',
+        });
+      } else {
+        gsap.to(confirmRidePopupPanelRef.current, {
+          transform: 'translateY(100%)',
+        });
+      }
+    },
+    [confirmRidePopupPanel]
+  );
 
   return (
     <div className="h-screen">
@@ -59,11 +90,23 @@ const CaptainHome = () => {
       <div className="h-2/5 p-6">
         <CaptainDetails />
       </div>
-      <div ref={ridePopupPanelRef} className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
-        <RidePopUp setRidePopupPanel={setRidePopupPanel}  setConfirmRidePopupPanel={setConfirmRidePopupPanel} />
+      <div
+        ref={ridePopupPanelRef}
+        className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white"
+      >
+        <RidePopUp
+          setRidePopupPanel={setRidePopupPanel}
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+        />
       </div>
-      <div ref={confirmRidePopupPanelRef} className="fixed h-screen w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white">
-        <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel}  setRidePopupPanel={setRidePopupPanel}/>
+      <div
+        ref={confirmRidePopupPanelRef}
+        className="fixed h-screen w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white"
+      >
+        <ConfirmRidePopUp
+          setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          setRidePopupPanel={setRidePopupPanel}
+        />
       </div>
     </div>
   );

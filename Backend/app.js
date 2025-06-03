@@ -15,7 +15,8 @@ app.use(cookiesParser()); //parse cookies
 
 // app.use(cors());
 app.use(cors({
-    origin: 'http://localhost:5173', // Allow frontend origin
+    // origin: 'http://localhost:5173', // Allow frontend origin
+    origin: '*', // Allow all origins for development, change in production
     credentials: true, // Allow cookies
 }));
 app.use(express.json());
