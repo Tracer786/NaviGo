@@ -9,6 +9,8 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver';
 import WaitingForDriver from '../components/WaitingForDriver';
 import { SocketContext } from '../context/SocketContext';
+import {useContext} from 'react';
+import { UserDataContext } from '../context/UserContext';
 
 // gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -30,6 +32,9 @@ const Home = () => {
   const [fare, setFare] = useState({}); // Initialize fare state
   const [vehicleType, setVehicleType] = useState(null); // Initialize vehicle type state
   // const {sendMessage, receiveMessage} = useContext(SocketContext); // Access the socket context
+  const {socket} = useContext(SocketContext); // Access the socket instance
+  // const {user} = useContext(UserDataContext); // Access user data context
+  const [user] = useContext(UserDataContext); // Access user data context
 
   // vehicle panel open
 
@@ -44,9 +49,29 @@ const Home = () => {
   //   }
   // }, []);
 
-  // useEffect(() => {
-  //   sendMessage("join", { userType: "home" , userId : });
-  // })
+//   useEffect(() => {
+//   if (user && user._id) {
+//     console.log('User data:', user);
+//     // sendMessage("join", { userType: "user", userId: user._id });
+//     socket.emit("join", { userType: "user", userId: user._id });
+//   } else {
+//     console.log('User is not defined yet');
+//   }
+// }, [user]);
+
+useEffect(() => {
+  if (user && user._id) {
+    console.log('User data:', user);
+    if (socket) {
+      socket.emit("join", { userType: "user", userId: user._id });
+      console.log('Socket is ready, user joined:', user._id);
+    } else {
+      console.log('Socket not ready yet');
+    }
+  } else {
+    console.log('User is not defined yet');
+  }
+}, [user, socket]);
 
   const fetchSuggestions = async (input) => {
     if (!input) {
