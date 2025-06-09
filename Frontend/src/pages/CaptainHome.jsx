@@ -41,7 +41,7 @@ const CaptainHome = () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((position) => {
             console.log({
-              captainId: captain._id,
+              userId: captain._id,
               location: {
                 ltd: position.coords.latitude,
                 lng: position.coords.longitude,

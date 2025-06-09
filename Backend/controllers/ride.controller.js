@@ -43,8 +43,10 @@ module.exports.createRide = async (req, res) => {
 
         // Example: 3km radius
         const captainsInRadius = await mapService.getCaptainsInTheRadius(
-            pickupCoordinates.latitude,
-            pickupCoordinates.longitude,
+            pickupCoordinates.ltd,
+            pickupCoordinates.lng,
+            // pickupCoordinates.latitude,
+            // pickupCoordinates.longitude,
             3
         );
         console.log('Captains in radius:', captainsInRadius);

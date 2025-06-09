@@ -17,8 +17,10 @@ module.exports.getAddressCoordinate = async (address) => {
       const result = response.data.results[0];
       const location = result.geometry.location;
       return {
-        latitude: location.lat,
-        longitude: location.lng,
+        ltd: location.lat,
+        lng: location.lng,
+        // latitude: location.lat,
+        // longitude: location.lng,
         formatted_address: result.formatted_address,
         place_id: result.place_id,
         types: result.types,
