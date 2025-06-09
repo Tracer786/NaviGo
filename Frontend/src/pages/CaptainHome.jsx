@@ -23,19 +23,42 @@ const CaptainHome = () => {
         userType: 'captain',
       });
 
-      const locationInterval = setInterval(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          socket.emit('update-location-captain', {
-            captainId: captain._id,
-            location: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-            },
-          });
-        });
-      }, 10000);
+      // const locationInterval = setInterval(() => {
+      //   navigator.geolocation.getCurrentPosition((position) => {
+      //     socket.emit('update-location-captain', {
+      //       captainId: captain._id,
+      //       location: {
+      //         latitude: position.coords.latitude,
+      //         longitude: position.coords.longitude,
+      //       },
+      //     });
+      //   });
+      // }, 10000);
 
-      return () => clearInterval(locationInterval);
+      // return () => clearInterval(locationInterval);
+
+      const updateLocation = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            console.log({
+              captainId: captain._id,
+              location: {
+                ltd: position.coords.latitude,
+                lng: position.coords.longitude,
+              },
+            })
+            socket.emit('update-location-captain', {
+              userId: captain._id,
+              location: {
+                ltd: position.coords.latitude,
+                lng: position.coords.longitude,
+              },
+            });
+          });
+        }
+      };
+      const locationInterval = setInterval(updateLocation, 10000);
+      updateLocation(); // Initial call to set location immediately
     }
   }, [socket, captain]);
 

@@ -1,5 +1,26 @@
 const rideService = require('../services/ride.service');
 const {validationResult} = require('express-validator');
+const mapService = require('../services/maps.service');
+
+// module.exports.createRide = async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//         return res.status(422).json({ errors: errors.array() });
+//     }
+
+//     try {
+//         const { userId, pickup, destination, vehicleType } = req.body;
+//         const ride = await rideService.createRide({user :  req.user._id, pickup, destination, vehicleType });
+//         // return res.status(201).json(ride);
+//         res.status(201).json(ride);
+//         const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
+//         console.log('Pickup Coordinates:', pickupCoordinates);
+//         const captainsInRadius = await mapService.getCaptainsInTheRadius()
+//     } catch (error) {
+//         console.error('Error creating ride:', error.message);
+//         return res.status(500).json({ error: 'Internal server error' });
+//     }
+// };
 
 module.exports.createRide = async (req, res) => {
     const errors = validationResult(req);
@@ -8,9 +29,28 @@ module.exports.createRide = async (req, res) => {
     }
 
     try {
-        const { userId, pickup, destination, vehicleType } = req.body;
-        const ride = await rideService.createRide({user :  req.user._id, pickup, destination, vehicleType });
-        return res.status(201).json(ride);
+        const { pickup, destination, vehicleType } = req.body;
+        const ride = await rideService.createRide({
+            user: req.user._id,
+            pickup,
+            destination,
+            vehicleType
+        });
+
+        // Get pickup coordinates and captains in radius BEFORE sending response
+        const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
+        console.log('Pickup Coordinates:', pickupCoordinates);
+
+        // Example: 3km radius
+        const captainsInRadius = await mapService.getCaptainsInTheRadius(
+            pickupCoordinates.latitude,
+            pickupCoordinates.longitude,
+            3
+        );
+        console.log('Captains in radius:', captainsInRadius);
+
+        // Now send response
+        res.status(201).json(ride);
     } catch (error) {
         console.error('Error creating ride:', error.message);
         return res.status(500).json({ error: 'Internal server error' });
