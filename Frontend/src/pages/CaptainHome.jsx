@@ -11,10 +11,11 @@ import { CaptainDataContext } from '../context/CaptainContext';
 const CaptainHome = () => {
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
-  const [ridePopupPanel, setRidePopupPanel] = useState(true);
+  const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
+  const [ride, setRide] = useState(null);
 
   useEffect(() => {
     if (socket && captain) {
@@ -62,6 +63,8 @@ const CaptainHome = () => {
 
       const rideHandler = (data) => {
       console.log('New ride request received:', data);
+      setRide(data);
+      setRidePopupPanel(true);
       // Uncomment and update the following lines when you're ready:
       // setRidePopupPanel(true);
       // setConfirmRidePopupPanel(false);
@@ -138,6 +141,7 @@ const CaptainHome = () => {
         className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white"
       >
         <RidePopUp
+        ride ={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
         />
