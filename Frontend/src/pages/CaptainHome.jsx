@@ -57,10 +57,30 @@ const CaptainHome = () => {
           });
         }
       };
-      const locationInterval = setInterval(updateLocation, 10000);
       updateLocation(); // Initial call to set location immediately
+      const locationInterval = setInterval(updateLocation, 10000);
+
+      const rideHandler = (data) => {
+      console.log('New ride request received:', data);
+      // Uncomment and update the following lines when you're ready:
+      // setRidePopupPanel(true);
+      // setConfirmRidePopupPanel(false);
+    };
+    socket.on('new-ride', rideHandler);
+
+    return () => {
+      clearInterval(locationInterval);
+      socket.off('new-ride', rideHandler);
+    };
+
     }
   }, [socket, captain]);
+
+  // socket.on('new-ride', (data) => {
+  //   console.log('New ride request received:', data);
+  //   // setRidePopupPanel(true);
+  //   // setConfirmRidePopupPanel(false);
+  // })
 
   useGSAP(
     function () {
