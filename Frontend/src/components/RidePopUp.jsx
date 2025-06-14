@@ -50,7 +50,7 @@ const RidePopUp = (props) => {
         <div className='flex items-center justify-between w-full mt-5'>
         <button
             onClick={() => {
-              props.setRidePopupPanel(false);
+              // props.setRidePopupPanel(false);
               // Add logic to decline the ride here
               // For example, you can call a function to send a request to the server to decline the ride
               // declineRide(rideId); // Assuming you have the rideId available in this context
@@ -62,8 +62,9 @@ const RidePopUp = (props) => {
           </button>
           <button
             onClick={() => {
-              props.setRidePopupPanel(false);
+              // props.setRidePopupPanel(false);
               props.setConfirmRidePopupPanel(true);
+              props.confirmRide()
               // Add logic to accept the ride here
               // For example, you can call a function to send a request to the server to accept the ride
               // acceptRide(rideId); // Assuming you have the rideId available in this context

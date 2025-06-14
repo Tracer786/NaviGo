@@ -20,4 +20,11 @@ router.get('/get-fare',
     rideController.getFare
 )
 
+router.post('/confirm',
+    authMiddleware.authCaptain, // Middleware to check if captain is authenticated
+    body('rideId').isMongoId().withMessage('Invalid ride ID'), // Validate ride ID
+    // body('otp').isString().isLength({min: 4, max: 4}).notEmpty().withMessage('Invalid OTP'), // Validate OTP
+    rideController.confirmRide
+)
+
 module.exports = router;

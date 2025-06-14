@@ -103,3 +103,37 @@ module.exports.createRide = async ({
   //     throw error;
   // }
 };
+
+module.exports.confirmRide = async ({
+  rideId
+}) => {
+  if (!rideId) {
+    throw new Error('Ride ID is required');
+  }
+
+  await rideModel.findOneAndUpdate({
+    _id : rideId
+  },
+    {
+      status: 'accepted',
+      captain: captain._id, // Assuming captain is passed in the request
+      // otp: getOtp(4), // Generate a new OTP for the ride
+    }
+  );
+
+  // const ride = await rideModel.findById(rideId);
+  const ride = await rideModel.findOne({
+    _id: ride,
+    // status: 'pending',
+  // }).populate('user').populate('captain', 'name vehicleType');
+  }).populate('user');
+  if (!ride) {
+    throw new Error('Ride not found');
+  }
+
+  // ride.status = 'accepted';
+  // // ride.otp = getOtp(4); // Generate a new OTP for the ride
+  // await ride.save();
+
+  return ride;
+}

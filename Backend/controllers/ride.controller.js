@@ -49,7 +49,7 @@ module.exports.createRide = async (req, res) => {
             pickupCoordinates.lng,
             // pickupCoordinates.latitude,
             // pickupCoordinates.longitude,
-            3
+            5
         );
         ride.otp = ""
 
@@ -87,3 +87,24 @@ module.exports.getFare = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
+
+module.exports.confirmRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { rideId } = req.body;
+        const ride = await rideService.confirmRide(rideId, req.captain._id);
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
+        })
+        return res.status(200).json(ride);
+    } catch (error) {
+        console.error('Error confirming ride:', error.message);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};

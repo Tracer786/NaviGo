@@ -85,6 +85,31 @@ const CaptainHome = () => {
   //   // setConfirmRidePopupPanel(false);
   // })
 
+// async function confirmRide() {
+//   socket.emit('confirm-ride', {
+//     rideId: ride._id,
+//     captainId: captain._id,
+//   })
+//   setConfirmRidePopupPanel(true);
+//   setRidePopupPanel(false);
+//   console.log('Ride confirmed:', ride._id);
+// }
+
+// will be using route instead
+
+async function confirmRide() {
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{
+
+  })
+  if (response.status === 200) {
+    console.log('Ride confirmed:', response.data);
+    setConfirmRidePopupPanel(true);
+    setRidePopupPanel(false);
+  } else {
+    console.error('Failed to confirm ride:', response.data);
+  }
+}
+
   useGSAP(
     function () {
       if (ridePopupPanel) {
@@ -144,6 +169,7 @@ const CaptainHome = () => {
         ride ={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          confirmRide = {confirmRide}
         />
       </div>
       <div

@@ -73,6 +73,10 @@ useEffect(() => {
   }
 }, [user, socket]);
 
+socket.on('ride-confirmed', ride => {
+  setWaitingForDriver(true);
+})
+
   const fetchSuggestions = async (input) => {
     if (!input) {
       setSuggestions([]);
