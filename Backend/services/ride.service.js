@@ -105,7 +105,7 @@ module.exports.createRide = async ({
 };
 
 module.exports.confirmRide = async ({
-  rideId
+  rideId, captain
 }) => {
   if (!rideId) {
     throw new Error('Ride ID is required');
@@ -123,7 +123,8 @@ module.exports.confirmRide = async ({
 
   // const ride = await rideModel.findById(rideId);
   const ride = await rideModel.findOne({
-    _id: ride,
+    // _id: ride,
+    _id  : rideId,
     // status: 'pending',
   // }).populate('user').populate('captain', 'name vehicleType');
   }).populate('user');

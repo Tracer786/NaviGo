@@ -49,7 +49,7 @@ module.exports.createRide = async (req, res) => {
             pickupCoordinates.lng,
             // pickupCoordinates.latitude,
             // pickupCoordinates.longitude,
-            5
+            200
         );
         ride.otp = ""
 
@@ -96,7 +96,8 @@ module.exports.confirmRide = async (req, res) => {
 
     try {
         const { rideId } = req.body;
-        const ride = await rideService.confirmRide(rideId, req.captain._id);
+        const ride = await rideService.confirmRide({rideId,captain: req.captain});
+        // const ride = await rideService.confirmRide(rideId, req.captain._id);
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',

@@ -7,6 +7,8 @@ import RidePopUp from '../components/RidePopUp';
 import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 import { SocketContext } from '../context/SocketContext';
 import { CaptainDataContext } from '../context/CaptainContext';
+import axios from 'axios';
+
 
 const CaptainHome = () => {
   const ridePopupPanelRef = useRef(null);
@@ -97,16 +99,51 @@ const CaptainHome = () => {
 
 // will be using route instead
 
-async function confirmRide() {
-  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{
+// async function confirmRide() {
+//   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{
 
-  })
-  if (response.status === 200) {
-    console.log('Ride confirmed:', response.data);
-    setConfirmRidePopupPanel(true);
-    setRidePopupPanel(false);
-  } else {
-    console.error('Failed to confirm ride:', response.data);
+//   })
+//   if (response.status === 200) {
+//     console.log('Ride confirmed:', response.data);
+//     setConfirmRidePopupPanel(true);
+//     setRidePopupPanel(false);
+//     rideId = ride._id
+//     captainId = captain._id
+//     headers: {
+//       // 'Content-Type': 'application/json',
+//       Authorization: `Bearer ${localStorage.getItem('token')}`
+//     }
+//   } else {
+//     console.error('Failed to confirm ride:', response.data);
+//   }
+// }
+
+async function confirmRide() {
+  const config = {
+    headers: {
+      // 'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    }
+  };
+
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {rideId: ride?._id}, // request body if needed
+      config
+    );
+    if (response.status === 200) {
+      console.log('Ride confirmed:', response.data);
+      setConfirmRidePopupPanel(true);
+      setRidePopupPanel(false);
+      // const rideId = ride._id;
+      // const captainId = captain._id;
+      // Further processing...
+    } else {
+      console.error('Failed to confirm ride:', response.data);
+    }
+  } catch (error) {
+    console.error('Error during ride confirmation:', error.message);
   }
 }
 
