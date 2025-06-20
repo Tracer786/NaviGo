@@ -35,6 +35,7 @@ const Home = () => {
   const {socket} = useContext(SocketContext); // Access the socket instance
   // const {user} = useContext(UserDataContext); // Access user data context
   const [user] = useContext(UserDataContext); // Access user data context
+  const [ride, setRide] = useState(null); // Initialize ride state
 
   // vehicle panel open
 
@@ -76,6 +77,7 @@ useEffect(() => {
 socket.on('ride-confirmed', ride => {
   setWaitingForDriver(true);
   setVehicleFound(false);
+  setRide(ride);
 })
 
   const fetchSuggestions = async (input) => {
@@ -350,7 +352,11 @@ socket.on('ride-confirmed', ride => {
         ref={waitingForDriverRef}
         className="fixed w-full z-10 bottom-0 px-3 py-6 pt-12 bg-white"
       >
-        <WaitingForDriver waitingForDriver={waitingForDriver} />
+        <WaitingForDriver 
+        ride = {ride}
+        setVehicleFound={setVehicleFound}
+        setWaitingForDriver={setWaitingForDriver}
+        waitingForDriver={waitingForDriver} />
       </div>
     </div>
   );

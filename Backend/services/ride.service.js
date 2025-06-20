@@ -127,7 +127,7 @@ module.exports.confirmRide = async ({
     _id  : rideId,
     // status: 'pending',
   // }).populate('user').populate('captain', 'name vehicleType');
-  }).populate('user');
+  }).populate('user').populate('captain').select('+otp'); // Exclude OTP from the response
   if (!ride) {
     throw new Error('Ride not found');
   }

@@ -15,9 +15,10 @@ const WaitingForDriver = (props) => {
       <div className="flex items-center justify-between">
         <img className="h-12" src="/images/NaviGo_Car.webp" alt="NaviGo_Car" />
         <div className="text-right">
-          <h2 className="text-lg font-medium">Mirul</h2>
-          <h4 className="text-xl font-semibold -mt-1 -mb-1">PB04 AB 1234</h4>
+          <h2 className="text-lg font-medium capitalize">{props.ride?.captain.fullname.firstname + " " + props.ride?.captain.fullname.lastname}</h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">{props.ride?.captain.vehicle.plate}</h4>
           <p className="text-sm font-grey-600">Maruti Suzuki Alto</p>
+          <h1 className='text-lg font-semibold'>{props.ride?.otp}</h1>
         </div>
       </div>
       <div className="flex gap-2 justify-between flex-col items-center">
@@ -26,20 +27,20 @@ const WaitingForDriver = (props) => {
             <i className="text-lg ri-user-location-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11/A</h3>
-              <p className="text-sm -mt-1 text-color-600">Near Metro, Delhi</p>
+              <p className="text-sm -mt-1 text-color-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-200">
             <i className="text-lg ri-map-pin-user-fill"></i>
             <div>
               <h3 className="text-lg font-medium">103/A</h3>
-              <p className="text-sm -mt-1 text-color-600">Sector-41, Gurgaon</p>
+              <p className="text-sm -mt-1 text-color-600">{props.ride?.destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="text-lg ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{props.ride?.fare}</h3>
               <p className="text-sm -mt-1 text-color-600">Cash Cash</p>
             </div>
           </div>
