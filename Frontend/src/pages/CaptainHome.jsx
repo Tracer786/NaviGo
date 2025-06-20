@@ -214,6 +214,7 @@ async function confirmRide() {
         className="fixed h-screen w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white"
       >
         <ConfirmRidePopUp
+        ride={ride}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
           setRidePopupPanel={setRidePopupPanel}
         />

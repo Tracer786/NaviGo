@@ -11,6 +11,7 @@ import WaitingForDriver from '../components/WaitingForDriver';
 import { SocketContext } from '../context/SocketContext';
 import {useContext} from 'react';
 import { UserDataContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 // gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -36,6 +37,7 @@ const Home = () => {
   // const {user} = useContext(UserDataContext); // Access user data context
   const [user] = useContext(UserDataContext); // Access user data context
   const [ride, setRide] = useState(null); // Initialize ride state
+  const navigate = useNavigate(); // Initialize navigate function from react-router-dom
 
   // vehicle panel open
 
@@ -75,9 +77,16 @@ useEffect(() => {
 }, [user, socket]);
 
 socket.on('ride-confirmed', ride => {
+  console.log('Ride confirmed:', ride);
   setWaitingForDriver(true);
   setVehicleFound(false);
   setRide(ride);
+})
+
+socket.on('ride-started', ride => {
+  console.log('Ride started:', ride);
+  setWaitingForDriver(false);
+  navigate('/riding')
 })
 
   const fetchSuggestions = async (input) => {

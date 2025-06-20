@@ -109,3 +109,25 @@ module.exports.confirmRide = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+module.exports.startRide = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+        const { rideId, otp } = req.query;
+        const ride = await rideService.startRide({rideId, otp, captain: req.captain});
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        });
+
+        return res.status(200).json(ride);
+    } catch (error) {
+        console.error('Error starting ride:', error.message);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
