@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Riding = () => {
+  const location = useLocation();
+  const ride = location.state?.ride;
   return (
     <div className="h-screen">
         <Link to='/home' className='fixed  h-10 w-10 right-2 top-2 bg-white flex items-center justify-center rounded-full'>
@@ -22,8 +24,8 @@ const Riding = () => {
             alt="NaviGo_Car"
           />
           <div className="text-right">
-            <h2 className="text-lg font-medium">Mirul</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">PB04 AB 1234</h4>
+            <h2 className="text-lg font-medium capitalize">{ride?.captain.fullname.firstname + " " + ride?.captain.fullname.lastname}</h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">{ride?.captain.vehicle.plate}</h4>
             <p className="text-sm font-grey-600">Maruti Suzuki Alto</p>
           </div>
         </div>
@@ -34,14 +36,14 @@ const Riding = () => {
               <div>
                 <h3 className="text-lg font-medium">103/A</h3>
                 <p className="text-sm -mt-1 text-color-600">
-                  Sector-41, Gurgaon
+                  {ride?.destination}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-5 p-3">
               <i className="text-lg ri-currency-fill"></i>
               <div>
-                <h3 className="text-lg font-medium">₹193.20</h3>
+                <h3 className="text-lg font-medium">₹{ride?.fare}</h3>
                 <p className="text-sm -mt-1 text-color-600">Cash Cash</p>
               </div>
             </div>

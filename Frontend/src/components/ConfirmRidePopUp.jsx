@@ -22,7 +22,9 @@ const ConfirmRidePopUp = (props) => {
         // Handle successful confirmation, e.g., redirect to the riding page
         props.setConfirmRidePopupPanel(false);
         props.setRidePopupPanel(false);
-        navigate('/captainriding'); // Redirect to the riding page
+        const ride = response.data
+        // navigate('/captainriding',{state : {ride : props.ride}}); // Redirect to the riding page
+        navigate('/captainriding', {state : {ride}});
         // Optionally, you can navigate to a different page or show a success message
       } else {
         // Handle error case, e.g., show an error message

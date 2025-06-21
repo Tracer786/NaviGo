@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import FinishRide from '../components/FinishRide';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
@@ -7,6 +7,8 @@ import { gsap } from 'gsap';
 const CaptainRiding = () => {
   const finishRidePanelRef = useRef(null);
   const [finishRidePanel, setFinishRidePanel] = useState(false);
+  const location = useLocation();
+  const ride = location.state?.ride || null;
 
   useGSAP(
     function () {
@@ -55,6 +57,7 @@ const CaptainRiding = () => {
           <i className="text-3xl ri-arrow-up-wide-fill"></i>
         </h5>
         <h4 className="text-xl font-semibold">4 KM away</h4>
+        {/* <h4 className="text-xl font-semibold">{ride?.pickup} → {ride?.destination}</h4> */}
         <button className="bg-green-600 text-white font-semibold p-3 px-10 rounded-lg">
           Complete Ride
         </button>
@@ -63,7 +66,10 @@ const CaptainRiding = () => {
         ref={finishRidePanelRef}
         className="fixed w-full z-10 bottom-0 translate-y-full px-3 py-10 pt-12 bg-white"
       >
-        <FinishRide  setFinishRidePanel={setFinishRidePanel}/>
+        <FinishRide  
+        ride = {ride}
+
+        setFinishRidePanel={setFinishRidePanel}/>
       </div>
     </div>
   );

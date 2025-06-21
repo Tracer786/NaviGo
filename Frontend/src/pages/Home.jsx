@@ -86,7 +86,7 @@ socket.on('ride-confirmed', ride => {
 socket.on('ride-started', ride => {
   console.log('Ride started:', ride);
   setWaitingForDriver(false);
-  navigate('/riding')
+  navigate('/riding',{state : {ride}});
 })
 
   const fetchSuggestions = async (input) => {

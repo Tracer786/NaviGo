@@ -24,7 +24,7 @@ const FinishRide = (props) => {
             src="/images/User_Image.webp"
             alt="User_Image"
           />
-          <h2 className="text-xl font-medium">User Singh</h2>
+          <h2 className="text-xl font-medium">{props.ride?.user.fullname.firstname + " " + props.ride?.user.fullname.lastname}</h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 Km</h5>
       </div>
@@ -34,20 +34,20 @@ const FinishRide = (props) => {
             <i className="text-lg ri-user-location-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11/A</h3>
-              <p className="text-sm -mt-1 text-color-600">Near Metro, Delhi</p>
+              <p className="text-sm -mt-1 text-color-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2 border-gray-200">
             <i className="text-lg ri-map-pin-user-fill"></i>
             <div>
               <h3 className="text-lg font-medium">103/A</h3>
-              <p className="text-sm -mt-1 text-color-600">Sector-41, Gurgaon</p>
+              <p className="text-sm -mt-1 text-color-600">{props.ride?.destination}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="text-lg ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">₹193.20</h3>
+              <h3 className="text-lg font-medium">₹{props.ride?.fare}</h3>
               <p className="text-sm -mt-1 text-color-600">Cash Cash</p>
             </div>
           </div>
