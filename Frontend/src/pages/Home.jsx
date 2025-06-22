@@ -12,6 +12,7 @@ import { SocketContext } from '../context/SocketContext';
 import {useContext} from 'react';
 import { UserDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking'; // Uncomment this if you have a LiveTracking component
 
 // gsap.registerPlugin(useGSAP); // register the hook to avoid React version discrepancies
 
@@ -244,11 +245,12 @@ socket.on('ride-started', ride => {
         alt="NaviGo Logo"
       />
       <div className="h-screen w-screen">
-        <img
+        {/* <img
           className="h-full w-full object-cover"
           src="/images/Home_Map_Gif_Image.gif"
           alt="Home Page"
-        />
+        /> */}
+        <LiveTracking/>
       </div>
       <div className="flex flex-col justify-end h-screen absolute top-0 w-full">
         <div className="h-[30%] p-5 bg-white relative">

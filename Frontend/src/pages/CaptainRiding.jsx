@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import FinishRide from '../components/FinishRide';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
+import LiveTracking from '../components/LiveTracking';
 
 const CaptainRiding = () => {
   const finishRidePanelRef = useRef(null);
@@ -37,11 +38,12 @@ const CaptainRiding = () => {
         </Link>
       </div>
       <div className="h-4/5">
-        <img
+        {/* <img
           className="h-full w-full object-cover"
           src="/images/Home_Map_Gif_Image.gif"
           alt="Home Page"
-        />
+        /> */}
+        <LiveTracking />
       </div>
       <div
         onClick={() => {

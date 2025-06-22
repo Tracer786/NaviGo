@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {useEffect, useContext} from 'react';
 import {SocketContext} from '../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking';
 
 const Riding = () => {
   const location = useLocation();
@@ -35,14 +36,15 @@ const Riding = () => {
         <Link to='/home' className='fixed  h-10 w-10 right-2 top-2 bg-white flex items-center justify-center rounded-full'>
         <i className="text-lg font-medium ri-home-4-line"></i>
         </Link>
-      <div className="h-1/2">
-        <img
+      <div className="h-3/5">
+        {/* <img
           className="h-full w-full object-cover"
           src="/images/Home_Map_Gif_Image.gif"
           alt="Home Page"
-        />
+        /> */}
+        <LiveTracking height="100%" />
       </div>
-      <div className="h-1/2 p-4">
+      <div className="h-2/5 p-4">
         <div className="flex items-center justify-between">
           <img
             className="h-12"
