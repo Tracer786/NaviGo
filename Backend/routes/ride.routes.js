@@ -34,4 +34,10 @@ router.get('/startride',
     rideController.startRide
 )
 
+router.post('/endride',
+    authMiddleware.authCaptain, // Middleware to check if captain is authenticated
+    body('rideId').isMongoId().withMessage('Invalid ride ID'), // Validate ride ID
+    rideController.endRide
+)
+
 module.exports = router;

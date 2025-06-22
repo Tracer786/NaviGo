@@ -179,3 +179,34 @@ module.exports.startRide = async ({ rideId, otp,captain }) => {
 
   return ride;
 }
+
+module.exports.endRide = async ({ rideId, captain }) => {
+  if (!rideId) {
+    throw new Error('Ride ID is required');
+  }
+
+  const ride = await rideModel.findOne({
+    _id: rideId,
+    captain: captain._id, // Assuming captain is passed in the request
+  }).populate('user').populate('captain').select('+otp'); // Include OTP in the response
+
+  if (!ride) {
+    throw new Error('Ride not found');
+  }
+
+  if (ride.status !== 'ongoing') {
+    throw new Error('Ride is not in progress');
+  }
+
+  await rideModel.findOneAndUpdate(
+    { _id: rideId },
+    { status: 'completed' }
+  );
+
+  // sendMessageToSocketId(ride.user.socketId, {
+  //   event: 'ride-ended',
+  //   data: ride,
+  // });
+
+  return ride;
+}

@@ -1,9 +1,35 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import {useEffect, useContext} from 'react';
+import {SocketContext} from '../context/SocketContext';
+import { useNavigate } from 'react-router-dom';
 
 const Riding = () => {
   const location = useLocation();
-  const ride = location.state?.ride;
+  const ride = location.state?.ride || null;
+  const {socket} = useContext(SocketContext);
+  const navigate = useNavigate();
+
+   useEffect(() => {
+    if (!socket) return;
+    const handler = () => {
+      console.log('Ride ended');
+      navigate('/home');
+    };
+    socket.on('ride-ended', handler);
+
+    // Cleanup
+    return () => {
+      socket.off('ride-ended', handler);
+    };
+  }, [socket, navigate]);
+
+  // useEffect(() => {
+  //   if (!ride) {
+  //     // Handle case where ride is not available
+  //   }
+  // }, [ride]);
+
   return (
     <div className="h-screen">
         <Link to='/home' className='fixed  h-10 w-10 right-2 top-2 bg-white flex items-center justify-center rounded-full'>

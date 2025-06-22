@@ -2,8 +2,34 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const FinishRide = (props) => {
+
+  const navigate = useNavigate();
+
+  async function endRide() {
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/endride`,{
+      rideId : props.ride._id
+    },{
+      headers: {
+        Authorization : `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    if (response.status === 200) {
+      // props.setFinishRidePanel(false);
+      // props.setRidePopUpPanel(false);
+      navigate('/captainhome');
+      // props.setRide(null);
+      // props.setRides((prevRides) => prevRides.filter((ride) => ride._id !== props.ride._id));
+      // Optionally, you can show a success message or redirect the user
+    } else {
+      // Handle error case
+      console.error('Failed to end ride:', response.data);
+    }
+  }
+
   return (
     <div>
       <h5
@@ -53,12 +79,12 @@ const FinishRide = (props) => {
           </div>
         </div>
         <div className="mt-10 w-full">
-          <Link
-            to="/captainhome"
+          <button
+          onClick={endRide}
             className="flex justify-center w-full mt-5 bg-green-500 text-white font-semibold p-3 rounded-lg text-lg"
           >
             Finish Ride
-          </Link>
+          </button>
           <p className='text-gray-600 mt-10 text-xs'>click on finish ride button if you have completed the payment.</p>
         </div>
       </div>
